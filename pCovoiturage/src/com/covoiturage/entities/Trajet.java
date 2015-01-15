@@ -1,6 +1,10 @@
 package com.covoiturage.entities;
 
+import javax.persistence.Entity;
+
+@Entity
 public class Trajet {
+	
 	private long idCovoitureur;
 	private String arretDepart;
 	private String arretFin;

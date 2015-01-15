@@ -1,8 +1,11 @@
 package com.covoiturage.entities;
 
+import javax.persistence.Entity;
+
 import com.covoiturage.exceptions.NombrePlaceException;
 import com.covoiturage.exceptions.PrixNegatifException;
 
+@Entity
 public class Voiture {
 	private String marque;
 	private int nbPlace;

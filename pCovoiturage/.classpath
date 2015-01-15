@@ -14,5 +14,6 @@
 	<classpathentry kind="con" path="org.eclipse.jst.j2ee.internal.web.container"/>
 	<classpathentry kind="con" path="org.eclipse.jst.j2ee.internal.module.container"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.USER_LIBRARY/GLASSFISH 4.1"/>
+	<classpathentry kind="lib" path="C:/glassfish4/glassfish/modules/javax.persistence.jar"/>
 	<classpathentry kind="output" path="build/classes"/>
 </classpath>

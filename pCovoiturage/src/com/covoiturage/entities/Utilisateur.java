@@ -5,18 +5,35 @@ import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import org.hibernate.validator.internal.constraintvalidators.EmailValidator;
+import javax.persistence.CascadeType;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.Id;
+import javax.persistence.ManyToMany;
+import javax.persistence.OneToMany;
+
+import org.eclipse.persistence.annotations.PrimaryKey;
 
 import com.covoiturage.exceptions.AgeIncorrectException;
 import com.covoiturage.exceptions.EmailIncorrectException;
 import com.covoiturage.exceptions.TrajetExistantException;
 
+@Entity
 public abstract class Utilisateur {
 
 	private String nom, prenom, email, password,dateInscription, villeHabitation;
+
+	
+	@Id
+	@GeneratedValue
 	private Long id;
+	
 	private int age;
+	
+	@OneToMany(cascade = CascadeType.ALL)
 	private List<Trajet> listeTrajets;
+	
+	@OneToMany(cascade = CascadeType.ALL)
 	private List<Plainte> listePlaintes;
 	
 	public Utilisateur(){}
