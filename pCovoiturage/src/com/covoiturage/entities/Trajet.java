@@ -48,5 +48,32 @@ public class Trajet {
 		this.date = date;
 	}
 	
+
+
+/*Vérification de l'égalité entre deux trajets, ils sont égaux s'ils ont la même
+	date avec la même heure de départ et le même arrêt de départ*/
+	public boolean equals(Object o)
+	{
+		if(o instanceof Trajet)
+		{
+			Trajet t = (Trajet) o;
+			return this.date == t.date && 
+					   this.heureDepart == t.heureDepart &&
+					   this.arretDepart == t.arretDepart;
+		}
+		return false;
+		
+	}
 	
+	
+	/*Permet de mettre à jour les informations concernant un trajet*/
+	public void setNouvellesInfos(Trajet traj)
+	{
+		this.arretDepart = traj.arretDepart;
+		this.arretFin = traj.arretFin;
+		this.heureDepart = traj.heureDepart;
+		this.date = traj.date;
+	}
+	
+
 }
