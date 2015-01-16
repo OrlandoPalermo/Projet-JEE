@@ -1,44 +1,51 @@
 package com.covoiturage.entities;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.Id;
+
+import com.covoiturage.exceptions.ArretDejaExistantException;
+import com.covoiturage.exceptions.PrixNegatifException;
 
 @Entity
 public class Trajet {
 	
-	private long idCovoitureur;
-	private String arretDepart;
-	private String arretFin;
+	@Id
+	@GeneratedValue
+	private long id;
+	private List<String> listeArrets;
+	private List<Utilisateur> listePassagers;
 	private String heureDepart;
 	private String date;
+	private double prixParPlace;
 	
 	public Trajet() {}
 	
-	public Trajet(long idCovoitureur, String arretDepart, String arretFin,
-			String heureDepart, String date) {
-		this.idCovoitureur = idCovoitureur;
-		this.arretDepart = arretDepart;
-		this.arretFin = arretFin;
+	public Trajet(String arretDepart, String arretFin,
+			String heureDepart, String date, double prix) {
+		listeArrets = new ArrayList<String>();
+		listePassagers = new ArrayList<Utilisateur>();
 		this.heureDepart = heureDepart;
 		this.date = date;
+		this.prixParPlace = prix;
 	}
-	public long getIdCovoitureur() {
-		return idCovoitureur;
+	
+	public void setArret(String aRemplacer, String remplace) throws ArretDejaExistantException
+	{
+		if(aRemplacer.equals(remplace))
+		{
+			throw new ArretDejaExistantException();
+		}
+		if(listeArrets.contains(aRemplacer))
+		{
+			listeArrets.set(listeArrets.indexOf(aRemplacer), remplace);
+		}
+		
 	}
-	public void setIdCovoitureur(long idCovoitureur) {
-		this.idCovoitureur = idCovoitureur;
-	}
-	public String getArretDepart() {
-		return arretDepart;
-	}
-	public void setArretDepart(String arretDepart) {
-		this.arretDepart = arretDepart;
-	}
-	public String getArretFin() {
-		return arretFin;
-	}
-	public void setArretFin(String arretFin) {
-		this.arretFin = arretFin;
-	}
+	
 	public String getHeureDepart() {
 		return heureDepart;
 	}
@@ -52,6 +59,16 @@ public class Trajet {
 		this.date = date;
 	}
 	
+	public double getPrix()
+	{
+		return prixParPlace;
+	}
+	
+	public void setPrix(double prix) throws PrixNegatifException {
+		if (prix < 0)
+			throw new PrixNegatifException();
+		this.prixParPlace = prix;
+	}
 
 
 /*Vérification de l'égalité entre deux trajets, ils sont égaux s'ils ont la même
@@ -63,7 +80,7 @@ public class Trajet {
 			Trajet t = (Trajet) o;
 			return this.date == t.date && 
 					   this.heureDepart == t.heureDepart &&
-					   this.arretDepart == t.arretDepart;
+					   this.listeArrets.get(0).equals(t.listeArrets.get(0));
 		}
 		return false;
 		
@@ -73,11 +90,26 @@ public class Trajet {
 	/*Permet de mettre à jour les informations concernant un trajet*/
 	public void setNouvellesInfos(Trajet traj)
 	{
-		this.arretDepart = traj.arretDepart;
-		this.arretFin = traj.arretFin;
+		this.listeArrets.clear();
+		this.listeArrets.addAll(traj.listeArrets);
 		this.heureDepart = traj.heureDepart;
 		this.date = traj.date;
 	}
 	
+	
+	//Code à implémenter, ne sachant pas si on aura besoin de s'en servir
+	public String trouverArret(String nom)
+	{
+		return null;
+	}
+	
+	public Utilisateur trouverPassager(String nom)
+	{
+		return null;
+	}
+	
+	public List<String> getListeArrets(){
+		return listeArrets;
+	}
 
 }

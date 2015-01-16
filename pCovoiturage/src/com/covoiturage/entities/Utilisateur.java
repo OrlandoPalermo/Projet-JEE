@@ -30,7 +30,7 @@ public abstract class Utilisateur {
 	
 	private int age;
 	
-	@OneToMany(cascade = CascadeType.ALL)
+	@ManyToMany(cascade = CascadeType.ALL)
 	private List<Trajet> listeTrajets;
 	
 	@OneToMany(cascade = CascadeType.ALL)
@@ -54,6 +54,14 @@ public abstract class Utilisateur {
 	public void ajouterPlainte(Plainte plainte)
 	{
 		listePlaintes.add(plainte);
+	}
+	
+	public void supprimerPlainte(Plainte plainte)
+	{
+		if(listePlaintes.contains(plainte))
+		{
+			listePlaintes.remove(plainte);
+		}
 	}
 	
 	
@@ -201,26 +209,6 @@ public abstract class Utilisateur {
 	}
 	public List<Plainte> getListePlaintes() {
 		return listePlaintes;
-	}
-	
-	/*Méthode qui permet de trouver un trajet en particulier*/
-	public Trajet trouverTrajet(Trajet traj)
-	{
-		if(listeTrajets.contains(traj))
-		{
-			return listeTrajets.get(listeTrajets.indexOf(traj));
-		}
-		return null;
-	}
-	
-	/*Méthode qui permet de trouver une plainte en particulier*/
-	public Plainte trouverPlainte(Plainte plainte)
-	{
-		if(listePlaintes.contains(plainte))
-		{
-			return listePlaintes.get(listePlaintes.indexOf(plainte));
-		}
-		return null;
 	}
 	
 	

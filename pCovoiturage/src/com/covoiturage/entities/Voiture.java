@@ -9,14 +9,12 @@ import com.covoiturage.exceptions.PrixNegatifException;
 public class Voiture {
 	private String marque;
 	private int nbPlace;
-	private double prix;
 	
 	public Voiture() {}
 
-	public Voiture(String marque, int nbPlace, double prix) throws PrixNegatifException, NombrePlaceException {
+	public Voiture(String marque, int nbPlace) throws PrixNegatifException, NombrePlaceException {
 		this.marque = marque;
 		setNbPlace(nbPlace);
-		setPrix(prix);
 	}
 
 	public String getMarque() {
@@ -37,15 +35,7 @@ public class Voiture {
 		this.nbPlace = nbPlace;
 	}
 
-	public double getPrix() {
-		return prix;
-	}
 
-	public void setPrix(double prix) throws PrixNegatifException {
-		if (prix < 0)
-			throw new PrixNegatifException();
-		this.prix = prix;
-	}
 	
 	
 }

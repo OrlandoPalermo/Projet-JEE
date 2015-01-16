@@ -11,10 +11,12 @@ public class Plainte {
 	@GeneratedValue
 	private Long id;
 	private String message;
+	private Long idUtilisateur;
 	
-	public Plainte(String mess)
+	public Plainte(String mess, Long idUtilisateur)
 	{
 		message = mess;
+		this.idUtilisateur = idUtilisateur;
 	}
 	
 	public String getMessage()

@@ -3,8 +3,10 @@ package com.covoiturage.entities;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
 
 import com.covoiturage.exceptions.ArretDejaExistantException;
 import com.covoiturage.exceptions.NombrePlaceException;
@@ -13,12 +15,8 @@ import com.covoiturage.exceptions.PrixNegatifException;
 @Entity
 public class Covoitureur extends Utilisateur {
 
+	@OneToOne(cascade = CascadeType.ALL)
 	private Voiture voiture;
-	
-	@OneToMany
-	private List<String> listeArrets;
-	
-	
 	
 	public Covoitureur() {}
 	public Covoitureur(String nom, String prenom, int age, String email,
@@ -26,13 +24,12 @@ public class Covoitureur extends Utilisateur {
 			int nbPlaces, double prix)
 	{
 		super(nom,prenom,age,email,password,dateInscription,villeHabitation);
-		listeArrets = new ArrayList<String>();
-		
+	
 		/*La voiture appartient au covoitureur -> composition -> création de l'objet
 		 * voiture dans la classe "Covoitureur"
 		 */
 		try{
-		voiture = new Voiture(marque,nbPlaces,prix);
+		voiture = new Voiture(marque,nbPlaces);
 		}
 		
 		/* METTRE LES MESSAGES DES CATCH DANS UNE PAGE WEB*/
@@ -48,39 +45,61 @@ public class Covoitureur extends Utilisateur {
 	
 	
 	//Ajoute un arrêt à la liste des arrêts proposés par le covoitureur
-	public void ajouterArret(String nomArret) throws ArretDejaExistantException
+	public void ajouterArret(String nomArret, Trajet traj) throws ArretDejaExistantException
 	{
-		
-		if(listeArrets.contains(nomArret))
+		if(getListeTrajets().contains(traj))
 		{
-				throw new ArretDejaExistantException();
+			getListeTrajets().get(getListeTrajets().indexOf(traj)).getListeArrets().add(nomArret);
 		}
-		listeArrets.add(nomArret);
+		
 		
 	}
 	
 	//Retire un arrêt à la liste des arrêts proposés par le covoitureur
-	public void retirerArret(String nomArret)
+	public void retirerArret(String nomArret, Trajet traj)
 	{
 		
-		if(listeArrets.contains(nomArret))
+		if(getListeTrajets().contains(traj))
 		{
-			listeArrets.remove(listeArrets.get(listeArrets.indexOf(nomArret)));
+			Trajet t =  getListeTrajets().get(getListeTrajets().indexOf(traj));
+			if(t.getListeArrets().contains(nomArret))
+			{
+				t.getListeArrets().remove(nomArret);
+			}
+
 		}
 		
 	}
 	
 	
 	//Modifie un arrêt déjà présent dans la liste des arrêts proposés par le covoitureur
-	public void modifierArret(String oldName, String newName)
+	public void modifierArret(String oldName, String newName, Trajet traj)
 	{
 		
-			if(listeArrets.contains(newName))
+		if(getListeTrajets().contains(traj))
+		{
+			Trajet t =  getListeTrajets().get(getListeTrajets().indexOf(traj));
+			if(t.getListeArrets().contains(oldName))
 			{
-				listeArrets.set(listeArrets.indexOf(oldName), newName);
+				t.getListeArrets().set(t.getListeArrets().indexOf(oldName), newName);
 			}
+
+		}
+		
 	}
 	
+	//Calcule le montant d'argent que le covoitureur va empocher
+	public double calculerPrixTotal(Trajet traj)
+	{
+		if(getListeTrajets().contains(traj))
+		{
+			Trajet t = getListeTrajets().get(getListeTrajets().indexOf(traj));
+			return t.getPrix() * voiture.getNbPlace();
+		}
+		return 0.0;
+		
+		
+	}
 	
 	
 
