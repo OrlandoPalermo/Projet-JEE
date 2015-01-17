@@ -13,6 +13,7 @@ public class Plainte {
 	private String message;
 	private Long idUtilisateur;
 	
+	public Plainte() {}
 	public Plainte(String mess, Long idUtilisateur)
 	{
 		message = mess;

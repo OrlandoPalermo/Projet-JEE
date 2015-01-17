@@ -1,0 +1,49 @@
+body {
+	background-image: url("../images/background.jpg");
+}
+
+.btn-accueil {
+	height: 70px;
+	text-align: center;
+	padding-top: 25px;
+	color: snow;
+	cursor: pointer;
+	transition: background-color 0.5s, color 0.5s;
+}
+
+.btn-accueil:hover {
+	background-color: gainsboro;
+	color: black;
+	transition: background-color 1s,  color 1s;
+}
+
+.btn-accueil-inscr {
+	background-color: #00A0E9;
+}
+
+.btn-accueil-connex {
+	background-color: #0097DC;
+}
+
+.btn-accueil-recher {
+	background-color: #0086C2;
+}
+
+#sidebar {
+	position: fixed;
+}
+
+.form-accueil {
+	padding: 10px;
+}
+
+#cont-recher {
+	position: relative;
+	top: 40px;
+}
+
+.consult-trajet {
+	background: snow;
+	padding: 3%;
+	border-radius: 10px;
+}

@@ -1,6 +1,9 @@
 package com.covoiturage.entities;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.GregorianCalendar;
 import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -10,15 +13,22 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.ManyToMany;
+import javax.persistence.NamedQueries;
+import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
 
 import org.eclipse.persistence.annotations.PrimaryKey;
+import org.glassfish.grizzly.utils.SilentConnectionFilter;
 
 import com.covoiturage.exceptions.AgeIncorrectException;
 import com.covoiturage.exceptions.EmailIncorrectException;
 import com.covoiturage.exceptions.TrajetExistantException;
 
 @Entity
+@NamedQueries({
+	@NamedQuery(name="trouverUtili", query="SELECT u FROM Utilisateur u WHERE u.email = :email"),
+	@NamedQuery(name="verifUtili", query="SELECT u FROM Utilisateur u WHERE u.email = :email AND u.password = :password")
+})
 public abstract class Utilisateur {
 
 	private String nom, prenom, email, password,dateInscription, villeHabitation;
@@ -38,14 +48,29 @@ public abstract class Utilisateur {
 	
 	public Utilisateur(){}
 	public Utilisateur(String nom, String prenom, int age, String email, String password,
-			String dateInscription, String villeHabitation)
+			String dateInscription, String villeHabitation) throws AgeIncorrectException
 	{
 		this.nom = nom;
 		this.prenom = prenom;
-		this.age = age;
+		setAge(age);
 		this.email = email;
 		this.password = password;
 		this.dateInscription = dateInscription;
+		this.villeHabitation = villeHabitation;
+		listeTrajets = new ArrayList<Trajet>();
+		listePlaintes = new ArrayList<Plainte>();
+	}
+	
+	public Utilisateur(String nom, String prenom, int age, String email, String password, String villeHabitation) throws AgeIncorrectException
+	{
+		this.nom = nom;
+		this.prenom = prenom;
+		setAge(age);
+		this.email = email;
+		this.password = password;
+		Calendar cal = Calendar.getInstance();
+		SimpleDateFormat format = new SimpleDateFormat("yyyy/MM/dd");
+		this.dateInscription = format.format(cal.getTime());
 		this.villeHabitation = villeHabitation;
 		listeTrajets = new ArrayList<Trajet>();
 		listePlaintes = new ArrayList<Plainte>();
@@ -211,6 +236,11 @@ public abstract class Utilisateur {
 		return listePlaintes;
 	}
 	
-	
+	public boolean equals(Object o) {
+		if (o instanceof Utilisateur) {
+			return ((Utilisateur)o).email.equals(email); 
+		}
+		return false;
+	}
 }
 

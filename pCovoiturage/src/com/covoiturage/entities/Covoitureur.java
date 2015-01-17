@@ -5,9 +5,12 @@ import java.util.List;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 
+import com.covoiturage.exceptions.AgeIncorrectException;
 import com.covoiturage.exceptions.ArretDejaExistantException;
 import com.covoiturage.exceptions.NombrePlaceException;
 import com.covoiturage.exceptions.PrixNegatifException;
@@ -20,27 +23,17 @@ public class Covoitureur extends Utilisateur {
 	
 	public Covoitureur() {}
 	public Covoitureur(String nom, String prenom, int age, String email,
-			String password, String dateInscription, String villeHabitation, String marque,
-			int nbPlaces, double prix)
+			String password, String villeHabitation, String marque,
+			int nbPlaces) throws PrixNegatifException, AgeIncorrectException, NombrePlaceException
 	{
-		super(nom,prenom,age,email,password,dateInscription,villeHabitation);
+		super(nom,prenom,age,email,password,villeHabitation);
 	
 		/*La voiture appartient au covoitureur -> composition -> création de l'objet
 		 * voiture dans la classe "Covoitureur"
 		 */
-		try{
 		voiture = new Voiture(marque,nbPlaces);
-		}
 		
-		/* METTRE LES MESSAGES DES CATCH DANS UNE PAGE WEB*/
-		catch (NombrePlaceException np)
-		{
-			System.out.println(np.getMessage());
-		}
-		catch (PrixNegatifException pn)
-		{
-			System.out.println(pn.getMessage());
-		}
+
 	}
 	
 	
