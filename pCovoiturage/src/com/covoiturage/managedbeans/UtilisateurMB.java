@@ -8,21 +8,26 @@ import javax.faces.bean.SessionScoped;
 import javax.faces.bean.ViewScoped;
 import javax.inject.Named;
 
+import com.covoiturage.ejbclasses.TrajetBean;
 import com.covoiturage.ejbclasses.UtilisateurBean;
 import com.covoiturage.entities.Admin;
 import com.covoiturage.entities.Covoitureur;
 import com.covoiturage.entities.Passager;
+import com.covoiturage.entities.Trajet;
 import com.covoiturage.entities.Utilisateur;
 import com.covoiturage.entities.Voiture;
 import com.covoiturage.exceptions.AgeIncorrectException;
 import com.covoiturage.exceptions.NombrePlaceException;
 import com.covoiturage.exceptions.PrixNegatifException;
+import com.covoiturage.exceptions.TrajetExistantException;
 
 @ManagedBean(name = "utilisateur", eager = true)
 @SessionScoped
 public class UtilisateurMB implements Serializable {
 	@EJB
 	private UtilisateurBean bean;
+	@EJB
+	private TrajetBean beanTrajet;
 	private Utilisateur utilisateur;
 	private int typeUtilisateur;
 	private String nom, prenom, email, password, villeHabitation;
@@ -31,6 +36,8 @@ public class UtilisateurMB implements Serializable {
 	private Voiture voiture;
 	//Si l'utilisateur est connecté
 	private boolean connecte;
+	private Trajet trajet;
+	private String arretTmp;
 
 	public UtilisateurMB() {
 		voiture = new Voiture();
@@ -40,6 +47,21 @@ public class UtilisateurMB implements Serializable {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+		trajet = new Trajet();
+	}
+	
+	public String ajouterTrajet() {
+		trajet.ajouterPassager(utilisateur);
+		try {
+			utilisateur.ajouterTrajet(trajet);
+		} catch (TrajetExistantException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		bean.modifierUtilisateur(utilisateur);
+		trajet = new Trajet();
+		utilisateur.getListeTrajets().clear();
+		return "index.xhtml";
 	}
 
 	public String ajouterUtilisateur() {
@@ -186,5 +208,32 @@ public class UtilisateurMB implements Serializable {
 		else
 			return 999;
 	}
+
+	public Utilisateur getUtilisateur() {
+		return utilisateur;
+	}
+
+	public void setUtilisateur(Utilisateur utilisateur) {
+		this.utilisateur = utilisateur;
+	}
+
+	public Trajet getTrajet() {
+		return trajet;
+	}
+
+	public void setTrajet(Trajet trajet) {
+		this.trajet = trajet;
+	}
+
+	public String getArretTmp() {
+		return arretTmp;
+	}
+
+	public void setArretTmp(String arretTmp) {
+		this.arretTmp = arretTmp;
+		trajet.getListeArrets().add(arretTmp);
+	}
+	
+	
 	
 }

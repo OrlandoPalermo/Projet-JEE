@@ -45,7 +45,10 @@ public abstract class Utilisateur {
 	@OneToMany(cascade = CascadeType.ALL)
 	private List<Plainte> listePlaintes;
 	
-	public Utilisateur(){}
+	public Utilisateur(){
+		listeTrajets = new ArrayList<Trajet>();
+		listePlaintes = new ArrayList<Plainte>();
+	}
 	public Utilisateur(String nom, String prenom, int age, String email, String password,
 			String dateInscription, String villeHabitation) throws AgeIncorrectException
 	{

@@ -3,12 +3,17 @@ package com.covoiturage.entities;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.json.JsonObject;
+import javax.persistence.ElementCollection;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 
+import org.json.simple.JSONObject;
+
 import com.covoiturage.exceptions.ArretDejaExistantException;
 import com.covoiturage.exceptions.PrixNegatifException;
+import com.google.gson.Gson;
 
 @Entity
 public class Trajet {
@@ -16,13 +21,18 @@ public class Trajet {
 	@Id
 	@GeneratedValue
 	private long id;
+	
+	@ElementCollection
 	private List<String> listeArrets;
 	private List<Utilisateur> listePassagers;
 	private String heureDepart;
 	private String date;
 	private double prixParPlace;
 	
-	public Trajet() {}
+	public Trajet() {
+		listeArrets = new ArrayList<String>();
+		listePassagers = new ArrayList<Utilisateur>();
+	}
 	
 	public Trajet(String arretDepart, String arretFin,
 			String heureDepart, String date, double prix) {
@@ -59,27 +69,28 @@ public class Trajet {
 		this.date = date;
 	}
 	
-	public double getPrix()
-	{
+	
+
+
+	public double getPrixParPlace() {
 		return prixParPlace;
 	}
-	
-	public void setPrix(double prix) throws PrixNegatifException {
-		if (prix < 0)
+
+	public void setPrixParPlace(double prixParPlace) throws PrixNegatifException{
+		if (prixParPlace < 0)
 			throw new PrixNegatifException();
-		this.prixParPlace = prix;
+		this.prixParPlace = prixParPlace;
 	}
 
-
-/*Vérification de l'égalité entre deux trajets, ils sont égaux s'ils ont la même
+	/*Vérification de l'égalité entre deux trajets, ils sont égaux s'ils ont la même
 	date avec la même heure de départ et le même arrêt de départ*/
 	public boolean equals(Object o)
 	{
 		if(o instanceof Trajet)
 		{
 			Trajet t = (Trajet) o;
-			return this.date == t.date && 
-					   this.heureDepart == t.heureDepart &&
+			return this.date.equals(t.date) && 
+					   this.heureDepart.equals(t.heureDepart) &&
 					   this.listeArrets.get(0).equals(t.listeArrets.get(0));
 		}
 		return false;
@@ -112,4 +123,18 @@ public class Trajet {
 		return listeArrets;
 	}
 
+	public void ajouterPassager(Utilisateur utili) {
+		if (!listePassagers.contains(utili))
+			listePassagers.add(utili);
+	}
+	
+	public String toJson() {
+		JSONObject json = new JSONObject();
+		json.put("heure", heureDepart);
+		json.put("date", date);
+		json.put("prix", prixParPlace);
+		json.put("nbPersonnes", listePassagers.size());
+		json.put("listeArret", listeArrets);
+		return json.toJSONString();
+	}
 }

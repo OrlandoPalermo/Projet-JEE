@@ -87,7 +87,7 @@ public class Covoitureur extends Utilisateur {
 		if(getListeTrajets().contains(traj))
 		{
 			Trajet t = getListeTrajets().get(getListeTrajets().indexOf(traj));
-			return t.getPrix() * voiture.getNbPlace();
+			return t.getPrixParPlace() * voiture.getNbPlace();
 		}
 		return 0.0;
 		

@@ -27,28 +27,34 @@
 							<div class="col-md-12">
 								<h:form id="ajoutTrajet">
 									<div class="form-group">
-										<h:inputText pt:placeholder="Coût par place" styleClass="form-control"></h:inputText>
+										<h:inputText pt:placeholder="Coût par place" value="#{utilisateur.trajet.prixParPlace}" styleClass="form-control"></h:inputText>
 									</div>
 									<div class="form-group">
-										<h:inputText pt:placeholder="Heure de départ" styleClass="form-control"></h:inputText>
+										<h:inputText pt:placeholder="Heure de départ" value="#{utilisateur.trajet.heureDepart}" styleClass="form-control"></h:inputText>
 									</div>
 									<div class="form-group">
-										<h:inputText id="dateDepart" pt:placeholder="Date de départ" styleClass="form-control"></h:inputText>
+										<h:inputText id="dateDepart" pt:placeholder="Date de départ" value="#{utilisateur.trajet.date}" styleClass="form-control"></h:inputText>
 									</div>
 									<div class="form-group">
 										<h4>Liste des arrêts</h4>
 										<div class="input-group">
-											<h:inputText id="trajet" pt:placeholder="Trajet" styleClass="form-control controls"></h:inputText>
-											<span class="input-group-addon" style="cursor: pointer;">+</span>
+											<h:inputText id="trajet" pt:placeholder="Trajet" value="#{utilisateur.arretTmp}" styleClass="form-control controls"></h:inputText>
+											
+											<h:commandButton value="+" styleClass="input-group-addon">
+												<f:ajax execute="trajet" render="listeTrajet"></f:ajax>
+											</h:commandButton>
+											<!--<span class="input-group-addon" style="cursor: pointer;">+</span>-->
 										</div>
 										<div>
-										<h:dataTable id="listeTrajet" styleClass="table table-striped">
-										
+										<h:dataTable id="listeTrajet" value="#{utilisateur.trajet.listeArrets}" var="data" styleClass="table table-striped">
+											 <h:column>
+										        <h:outputText value="#{data}" />
+										    </h:column>
 										</h:dataTable>
 										</div>
 									</div>
 									<div class="form-group text-center">
-										<h:commandButton styleClass="btn btn-success" value="Ajouter ce trajet"></h:commandButton>
+										<h:commandButton styleClass="btn btn-success" value="Ajouter ce trajet" action="#{utilisateur.ajouterTrajet()}"></h:commandButton>
 									</div>
 								</h:form>
 							</div>
@@ -72,10 +78,10 @@
 				});
 				
 				$("#ajoutTrajet\\:trajet").next().click(function() {
-					var valeurTrajet = $("#ajoutTrajet\\:trajet").val();
+					/*var valeurTrajet = $("#ajoutTrajet\\:trajet").val();
 					var listeTrajet = $("#ajoutTrajet\\:listeTrajet").children().eq(0);
 					listeTrajet.append("<tr><td>" + $(this).prev().val() + "</td></tr>");
-					$(this).prev().val("");
+					*/$(this).prev().val("");
 				});
 			});
 		</script>

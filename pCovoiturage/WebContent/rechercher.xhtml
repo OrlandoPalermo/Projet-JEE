@@ -1,10 +1,114 @@
 <!DOCTYPE html>
-<html>
-<head>
-<meta charset="UTF-8">
+<html
+	xmlns:f="http://xmlns.jcp.org/jsf/core"
+	xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+	xmlns:h="http://xmlns.jcp.org/jsf/html"
+	xmlns:c="http://xmlns.jcp.org/jsp/jstl/core"
+	xmlns:jsf="http://xmlns.jcp.org/jsf"
+	xmlns:pt="http://xmlns.jcp.org/jsf/passthrough">
+<h:head>
+<meta charset="UTF-8" />
+		<h:outputStylesheet name="css/css.css" />
+		<h:outputStylesheet name="css/bootstrap.min.css" target="head" />
+		<h:outputStylesheet name="css/jquery-ui.min.css" />
+		<h:outputStylesheet name="css/fullcalendar.min.css" />
 <title>Insert title here</title>
-</head>
+</h:head>
 <body>
+<ui:include src="header.xhtml"></ui:include>
+<div class="container">
+			<div class="row">
+				<div class="col-md-12 text-center">
+					<div class="well well-sm" style="opacity: 0.6">
+						<h3>Consultation</h3>
+					</div>
+				</div>
+			</div>
 
+			<div class="row">
+				<div class="col-md-12">
+					<div id="calendar" class="consult-trajet"></div>
+				</div>
+			</div>
+			<div class="modal fade" id="modal-trajet">
+				<div class="modal-dialog">
+					<div class="modal-content">
+						<div class="modal-header">
+							<div class="modal-title"></div>
+						</div>
+						<div class="modal-body">
+							<form class="form form-vertical">
+								<div class="form-group">
+									<label for="prix">Prix : </label>
+									<input type="text" class="form-control" id="prix" />
+								</div>
+								<div class="form-group">
+									<label for="date">Date : </label>
+									<input type="text" class="form-control" id="date" />
+								</div>
+								<div class="form-group">
+									<label for="heureDepart">L'heure de départ : </label>
+									<input type="text" class="form-control" id="heureDepart" />
+								</div>
+								<div class="form-group">
+									<label>Liste arrêt : </label>
+									<input type="text" class="form-control" />
+								</div>
+							</form>
+						</div>
+						<div class="modal-footer">
+							<div class="row text-center">
+								<div class="col-md-4">
+									<input type="button" class="btn btn-default" value="Annuler" />
+								</div>
+								<div class="col-md-4">
+									<input type="button" class="btn btn-success" value="Valider" />
+								</div>
+								<div class="col-md-4">
+									<input type="button" class="btn btn-danger" value="Supprimer" />
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+
+		<!--<script src="https://maps.googleapis.com/maps/api/js?v=3.exp&libraries=places"></script>-->
+		<h:outputScript name="js/jquery.min.js" />
+		<h:outputScript name="js/jquery-ui.min.js" />
+		<h:outputScript name="js/bootstrap.min.js" />
+		<h:outputScript name="js/moment.min.js" />
+		<h:outputScript name="js/fullcalendar.min.js" />
+		<script>
+			$(function() {
+				$("#calendar").fullCalendar({
+					eventClick : function(calEvent, jsEvent, view) {
+						var modalTrajet = $("#modal-trajet");
+						modalTrajet.find(".modal-title").text(calEvent.title);
+						$("#prix").val(calEvent.prix);
+						$("#heureDepart").val(calEvent.start);
+						modalTrajet.modal("show");
+					},
+					 events: [
+				        {
+				        	id     : 10,
+				            title  : 'Coucou',
+				            start  : '2015-01-16',
+				            prix   : 20
+				        },
+				        {
+				            title  : 'Anniversaire',
+				            start  : '2015-01-17',
+				        },
+				        {
+				            title  : 'Soirée',
+				            start  : '2015-01-19T12:30:00',
+				            allDay : false // will make the time show
+				        }
+				    ]
+				});
+			});
+		</script>
 </body>
 </html>

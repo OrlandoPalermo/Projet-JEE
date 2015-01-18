@@ -25,6 +25,11 @@ public class UtilisateurBean implements UtilisateurRemote {
 			em.persist(utili);
 	}
 	
+	public void modifierUtilisateur(Utilisateur newUtili) {
+		if (presenceUtilisateur(newUtili))
+			em.merge(newUtili);
+	}
+	
 	public boolean presenceUtilisateur(Utilisateur utili) {
 		Utilisateur user = null;
 		Query q = em.createNamedQuery("trouverUtili");
