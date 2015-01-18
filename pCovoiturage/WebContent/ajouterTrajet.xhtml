@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html xmlns:f="http://xmlns.jcp.org/jsf/core"
+	xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+	xmlns:h="http://xmlns.jcp.org/jsf/html"
+	xmlns:c="http://xmlns.jcp.org/jsp/jstl/core"
+	xmlns:jsf="http://xmlns.jcp.org/jsf"
+	xmlns:pt="http://xmlns.jcp.org/jsf/passthrough">
+	<h:head>
+		<meta charset="UTF-8" />
+		<h:outputStylesheet name="css/css.css" />
+		<h:outputStylesheet name="css/bootstrap.min.css" target="head" />
+		<h:outputStylesheet name="css/jquery-ui.min.css" />
+		<title>Ajouter un trajet</title>
+	</h:head>
+	<body>
+	<ui:include src="header.xhtml"></ui:include>
+	<c:choose>
+		<c:when test="#{utilisateur.droitUtilisateur() == 0}">
+			<div class="row">
+			<div class="col-md-10" style="margin: auto; float: none;">
+				<div class="panel panel-default">
+					<div class="panel-heading text-center">
+						Ajouter un trajet
+					</div>
+					<div class="panel-body">
+						<div class="row">
+							<div class="col-md-12">
+								<h:form id="ajoutTrajet">
+									<div class="form-group">
+										<h:inputText pt:placeholder="Coût par place" styleClass="form-control"></h:inputText>
+									</div>
+									<div class="form-group">
+										<h:inputText pt:placeholder="Heure de départ" styleClass="form-control"></h:inputText>
+									</div>
+									<div class="form-group">
+										<h:inputText id="dateDepart" pt:placeholder="Date de départ" styleClass="form-control"></h:inputText>
+									</div>
+									<div class="form-group">
+										<h4>Liste des arrêts</h4>
+										<div class="input-group">
+											<h:inputText id="trajet" pt:placeholder="Trajet" styleClass="form-control controls"></h:inputText>
+											<span class="input-group-addon" style="cursor: pointer;">+</span>
+										</div>
+										<div>
+										<h:dataTable id="listeTrajet" styleClass="table table-striped">
+										
+										</h:dataTable>
+										</div>
+									</div>
+									<div class="form-group text-center">
+										<h:commandButton styleClass="btn btn-success" value="Ajouter ce trajet"></h:commandButton>
+									</div>
+								</h:form>
+							</div>
+							
+						</div>
+					</div>		
+				</div>
+			</div>
+		</div>
+		
+
+		<script src="https://maps.googleapis.com/maps/api/js?v=3.exp&amp;libraries=places"></script>
+		<h:outputScript name="js/jquery.min.js" />
+		<h:outputScript name="js/jquery-ui.min.js" />
+		<h:outputScript name="js/bootstrap.min.js" />
+		
+		<script>
+			$(function() {
+				$("#ajoutTrajet\\:dateDepart").datepicker({
+					minDate: 0
+				});
+				
+				$("#ajoutTrajet\\:trajet").next().click(function() {
+					var valeurTrajet = $("#ajoutTrajet\\:trajet").val();
+					var listeTrajet = $("#ajoutTrajet\\:listeTrajet").children().eq(0);
+					listeTrajet.append("<tr><td>" + $(this).prev().val() + "</td></tr>");
+					$(this).prev().val("");
+				});
+			});
+		</script>
+		<script>
+		function initializeArret() {
+			var input = document.getElementById('ajoutTrajet:trajet');
+			var options = {
+			  types: ['(cities)'],
+			  componentRestrictions: {country: 'be'}
+			};
+	 
+			autocomplete = new google.maps.places.Autocomplete(input, options);
+ 
+      	}
+      	google.maps.event.addDomListener(window, 'load', initializeArret);
+		</script>
+		</c:when>
+		<c:otherwise>
+			coucuo
+		</c:otherwise>
+	</c:choose>
+		
+		
+	</body>
+</html>

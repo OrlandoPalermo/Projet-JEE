@@ -9,6 +9,9 @@ import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
 
 import com.covoiturage.ejbinterfaces.UtilisateurRemote;
+import com.covoiturage.entities.Admin;
+import com.covoiturage.entities.Covoitureur;
+import com.covoiturage.entities.Passager;
 import com.covoiturage.entities.Utilisateur;
 
 @LocalBean
@@ -44,10 +47,20 @@ public class UtilisateurBean implements UtilisateurRemote {
 		q.setParameter("email", email);
 		q.setParameter("password", password);
 		try {
-			user = (Utilisateur) q.getSingleResult();
+			Object o = q.getSingleResult();
+						
+			if (o instanceof Covoitureur)
+				user = (Covoitureur) o;
+			else if (o instanceof Passager)
+				user = (Passager) o;
+			else if (o instanceof Admin)
+				user = (Admin) o;
+			else
+				return null;
+			
+			return user;
 		} catch(Exception e) {
 			return null;
 		}
-		return user;
 	}
 }

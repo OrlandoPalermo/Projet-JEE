@@ -9,6 +9,7 @@ import javax.faces.bean.ViewScoped;
 import javax.inject.Named;
 
 import com.covoiturage.ejbclasses.UtilisateurBean;
+import com.covoiturage.entities.Admin;
 import com.covoiturage.entities.Covoitureur;
 import com.covoiturage.entities.Passager;
 import com.covoiturage.entities.Utilisateur;
@@ -173,6 +174,17 @@ public class UtilisateurMB implements Serializable {
 
 	public void setConnecte(boolean connecte) {
 		this.connecte = connecte;
+	}
+	
+	public int droitUtilisateur() {
+		if (utilisateur instanceof Covoitureur)
+			return 0;
+		else if (utilisateur instanceof Passager)
+			return 1;
+		else if (utilisateur instanceof Admin)
+			return 2;
+		else
+			return 999;
 	}
 	
 }
