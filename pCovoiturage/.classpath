@@ -19,5 +19,8 @@
 		</attributes>
 	</classpathentry>
 	<classpathentry kind="lib" path="C:/glassfish4/glassfish/modules/javax.persistence.jar"/>
+	<classpathentry kind="lib" path="C:/Users/Orlando/Downloads/google-gson-2.2.4-release/google-gson-2.2.4/gson-2.2.4.jar"/>
+	<classpathentry kind="lib" path="C:/Users/Orlando/Downloads/google-gson-2.2.4-release/google-gson-2.2.4/gson-2.2.4-javadoc.jar"/>
+	<classpathentry kind="lib" path="C:/Users/Orlando/Downloads/google-gson-2.2.4-release/google-gson-2.2.4/gson-2.2.4-sources.jar"/>
 	<classpathentry kind="output" path="build/classes"/>
 </classpath>

@@ -9,4 +9,6 @@ public interface UtilisateurRemote {
 	void ajouterUtilisateur(Utilisateur utili);
 	boolean presenceUtilisateur(Utilisateur utili);
 	Utilisateur connexion(String email, String password);
+	String getCovoitureur(String nom, String prenom);
+	String getCovoitureur(String email);
 }

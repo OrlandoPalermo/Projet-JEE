@@ -63,4 +63,34 @@ public class UtilisateurBean implements UtilisateurRemote {
 			return null;
 		}
 	}
+	
+	public String getCovoitureur(String nom, String prenom) {
+		Covoitureur covoi = null;
+		
+		Query q = em.createNamedQuery("trouverCovoitureur");
+		q.setParameter("nom", nom);
+		q.setParameter("prenom", prenom);
+		
+		try {
+			covoi = (Covoitureur) q.getSingleResult();
+			return covoi.toJson();
+		} catch(Exception e) {
+			return "";
+		}
+	}
+
+	@Override
+	public String getCovoitureur(String email) {
+		Covoitureur covoi = null;
+		
+		Query q = em.createNamedQuery("trouverCovoitureurEmail");
+		q.setParameter("email", email);
+		
+		try {
+			covoi = (Covoitureur) q.getSingleResult();
+			return covoi.toJson();
+		} catch(Exception e) {
+			return "";
+		}
+	}
 }

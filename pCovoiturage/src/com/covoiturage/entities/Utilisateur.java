@@ -3,7 +3,6 @@ package com.covoiturage.entities;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.GregorianCalendar;
 import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -17,23 +16,23 @@ import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
 
-import org.eclipse.persistence.annotations.PrimaryKey;
-import org.glassfish.grizzly.utils.SilentConnectionFilter;
 
 import com.covoiturage.exceptions.AgeIncorrectException;
 import com.covoiturage.exceptions.EmailIncorrectException;
 import com.covoiturage.exceptions.TrajetExistantException;
+import com.google.gson.Gson;
 
 @Entity
 @NamedQueries({
 	@NamedQuery(name="trouverUtili", query="SELECT u FROM Utilisateur u WHERE u.email = :email"),
-	@NamedQuery(name="verifUtili", query="SELECT u FROM Utilisateur u WHERE u.email = :email AND u.password = :password")
+	@NamedQuery(name="verifUtili", query="SELECT u FROM Utilisateur u WHERE u.email = :email AND u.password = :password"),
+	@NamedQuery(name="trouverCovoitureur", query="SELECT c FROM Covoitureur c WHERE c.nom = :nom AND c.prenom = :prenom"),
+	@NamedQuery(name="trouverCovoitureurEmail", query="SELECT c FROM Covoitureur c WHERE c.email = :email")
 })
 public abstract class Utilisateur {
 
 	private String nom, prenom, email, password,dateInscription, villeHabitation;
 
-	
 	@Id
 	@GeneratedValue
 	private Long id;
@@ -241,6 +240,11 @@ public abstract class Utilisateur {
 			return ((Utilisateur)o).email.equals(email); 
 		}
 		return false;
+	}
+	
+	public String toJson() {
+		Gson gson = new Gson();
+		return gson.toJson(this);
 	}
 }
 
