@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html
+	xmlns:f="http://xmlns.jcp.org/jsf/core"
+	xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+	xmlns:h="http://xmlns.jcp.org/jsf/html"
+	xmlns:c="http://xmlns.jcp.org/jsp/jstl/core"
+	xmlns:jsf="http://xmlns.jcp.org/jsf"
+	xmlns:pt="http://xmlns.jcp.org/jsf/passthrough">
+	<h:head>
+		<meta charset="UTF-8" />
+		<h:outputStylesheet name="css/css.css" />
+		<h:outputStylesheet name="css/bootstrap.min.css" target="head" />
+		<h:outputStylesheet name="css/jquery-ui.min.css" />
+		<title>Mon profil</title>
+	</h:head>
+	<body>
+		<ui:include src="header.xhtml"></ui:include>
+		<div class="row col-md-12" style="float: none; margin: auto;">
+			<div class="panel panel-default">
+			<div class="panel-heading text-center"><h3>Mon profil</h3></div>
+			<div class="panel-body">
+				<h:form id="profil">
+					<div class="form-group">
+						<div class="row">
+							<div class="form-group col-md-6">
+								<h:inputText styleClass="form-control" pt:placeholder="Nom"></h:inputText>
+							</div>
+							<div class="form-group col-md-6">
+								<h:inputText styleClass="form-control" pt:placeholder="Prénom"></h:inputText>
+							</div>	
+						</div>
+						
+					</div>
+					<div class="form-group">
+						<h:inputText styleClass="form-control" pt:placeholder="Age"></h:inputText>
+					</div>
+					<div class="form-group">
+						<h:inputText styleClass="form-control" pt:placeholder="Numéro de téléphone"></h:inputText>
+					</div>
+					<div class="form-group">
+						<h:inputText styleClass="form-control" pt:placeholder="Ville habitation"></h:inputText>
+					</div>
+					
+					<c:choose>
+						<c:when test="#{utilisateur.droitUtilisateur() == 0}">
+							<h4>Information sur la voiture</h4>
+							<div class="form-group">
+								<h:inputText styleClass="form-control" pt:placeholder="Marque"></h:inputText>
+							</div>
+							<div class="form-group">
+								<h:inputText styleClass="form-control" pt:placeholder="Nombre de places"></h:inputText>
+							</div>
+						</c:when>
+					</c:choose>
+					
+					<c:choose>
+						<c:when test="#{utilisateur.droitUtilisateur() == 1}">
+							<div class="form-group">
+								<h:inputText styleClass="form-control" pt:placeholder="Nombre de kilomètres possibles"></h:inputText>
+							</div>
+						</c:when>
+					</c:choose>
+							
+					<div class="form-group text-center">
+						<h:commandButton styleClass="btn btn-success" value="Modifier son profil"></h:commandButton>
+					</div>
+				</h:form>
+			</div>
+		</div>
+		</div>
+		
+	</body>
+</html>
