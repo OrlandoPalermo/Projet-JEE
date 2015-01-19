@@ -47,3 +47,13 @@ body {
 	padding: 3%;
 	border-radius: 10px;
 }
+
+#home {
+	opacity: 0.7;
+	transition: opacity 1s;
+}
+
+#home:hover {
+	opacity: 1;
+	transition: opacity 1s;
+}

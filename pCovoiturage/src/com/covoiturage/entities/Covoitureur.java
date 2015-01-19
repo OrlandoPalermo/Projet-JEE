@@ -93,7 +93,13 @@ public class Covoitureur extends Utilisateur {
 		
 		
 	}
+	public Voiture getVoiture() {
+		return voiture;
+	}
+	public void setVoiture(Voiture voiture) {
+		this.voiture = voiture;
+	}
 	
 	
-
+	
 }

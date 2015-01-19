@@ -11,4 +11,6 @@ public interface TrajetLocal {
 	public void ajouterTrajet(Trajet tra);
 	public boolean presenceTrajet(Trajet tra);
 	public List<Trajet> obtenirTrajets(String emailUtili);
+	public List<Trajet> obtenirTrajetsViaArret(String arret);
+	public void modifierTrajet(Trajet tra);
 }

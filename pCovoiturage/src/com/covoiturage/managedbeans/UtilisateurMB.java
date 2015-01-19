@@ -1,12 +1,11 @@
 package com.covoiturage.managedbeans;
 
 import java.io.Serializable;
+import java.util.List;
 
 import javax.ejb.EJB;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
-import javax.faces.bean.ViewScoped;
-import javax.inject.Named;
 
 import com.covoiturage.ejbclasses.TrajetBean;
 import com.covoiturage.ejbclasses.UtilisateurBean;
@@ -62,6 +61,23 @@ public class UtilisateurMB implements Serializable {
 		trajet = new Trajet();
 		utilisateur.getListeTrajets().clear();
 		return "index.xhtml";
+	}
+	
+	public String ajouterTrajetParticipation() {
+		
+		try {
+			utilisateur.ajouterTrajet(trajet);
+			trajet.ajouterPassager(utilisateur);
+			beanTrajet.modifierTrajet(trajet);
+			bean.modifierUtilisateur(utilisateur);
+			trajet = new Trajet();
+			return "consulter.xhtml";
+		} catch (TrajetExistantException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		return "consulter.xhtml";
 	}
 
 	public String ajouterUtilisateur() {

@@ -52,8 +52,10 @@
 									<h:inputText type="text" class="form-control" id="heureDepart"></h:inputText>
 								</div>
 								<div class="form-group">
-									<label>Liste arrêt : </label>
-									<h:inputText type="text" class="form-control"></h:inputText>
+									<h3>Liste des arrêts</h3>
+									<h:dataTable id="listeTrajet" styleClass="table table-striped">
+										
+									</h:dataTable>
 								</div>
 							</h:form>
 						</div>
@@ -91,6 +93,14 @@
 						$("#form-lecture\\:prix").val(calEvent.prix);
 						$("#form-lecture\\:heureDepart").val(calEvent.start);
 						$("#form-lecture\\:date").val(calEvent.date);
+						var listeTrajet = $("#form-lecture\\:listeTrajet").children();
+						var tabTrajet = calEvent.listeArret;
+						
+						listeTrajet.html("");
+						for (var i = 0; i &lt; tabTrajet.length; i++) {
+							listeTrajet.append("<tr><td>"+ tabTrajet[i] +"</td></tr>")
+						}
+						
 						modalTrajet.modal("show");
 					},
 					 events: "http://localhost:8080/pCovoiturage/services/trajet/#{utilisateur.email}"

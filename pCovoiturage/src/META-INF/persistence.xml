@@ -14,7 +14,7 @@
 		<exclude-unlisted-classes>true</exclude-unlisted-classes>
 		<properties>
 		    <property name="javax.persistence.jdbc.driver" value="org.apache.derby.jdbc.ClientDriver"/>
-			<property name="javax.persistence.jdbc.url" value="jdbc:derby://localhost:1527/DBCovoiturage;create=true"/>
+			<property name="javax.persistence.jdbc.url" value="jdbc:derby://localhost:1527/DBCovoiturageg1c;create=true"/>
 			<property name="eclipselink.ddl-generation" value="create-tables"/>
 			<property name="javax.persistence.jdbc.user" value="APP"/>
 			<property name="javax.persistence.jdbc.password" value="APP"/>
@@ -24,7 +24,7 @@
 	</persistence-unit>
 	
 	<persistence-unit name="covoiturageJTA" transaction-type="JTA">
-	<jta-data-source>jdbc/DBCovoiturage</jta-data-source>
+	<jta-data-source>jdbc/DBCovoiturageg1c</jta-data-source>
 		<class>com.covoiturage.entities.Utilisateur</class>
 		<class>com.covoiturage.entities.Covoitureur</class>
 		<class>com.covoiturage.entities.Admin</class>
@@ -35,7 +35,7 @@
 		<exclude-unlisted-classes>true</exclude-unlisted-classes>
 		<properties>
 		    <property name="javax.persistence.jdbc.driver" value="org.apache.derby.jdbc.ClientDriver"/>
-			<property name="javax.persistence.jdbc.url" value="jdbc:derby://localhost:1527/DBCovoiturage;create=true"/>
+			<property name="javax.persistence.jdbc.url" value="jdbc:derby://localhost:1527/DBCovoiturageg1c;create=true"/>
 			<property name="javax.persistence.jdbc.user" value="APP"/>
 			<property name="javax.persistence.jdbc.password" value="APP"/>
 			<property name="eclipselink.ddl-generation" value="create-tables"/>

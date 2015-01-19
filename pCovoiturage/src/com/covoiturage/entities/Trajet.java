@@ -104,7 +104,18 @@ public class Trajet {
 		this.date = traj.date;
 	}
 	
+	public int nombrePassagers() {
+		return listePassagers.size();
+	}
 	
+	public List<Utilisateur> getListePassagers() {
+		return listePassagers;
+	}
+
+	public void setListePassagers(List<Utilisateur> listePassagers) {
+		this.listePassagers = listePassagers;
+	}
+
 	//Code à implémenter, ne sachant pas si on aura besoin de s'en servir
 	public String trouverArret(String nom)
 	{
@@ -125,7 +136,15 @@ public class Trajet {
 			listePassagers.add(utili);
 	}
 	
-	public String toJson() {
+	public String getPointDepart() {
+		return listeArrets.get(0);
+	}
+	
+	public String getPointDestination() {
+		return listeArrets.get(listeArrets.size() - 1);
+	}
+	
+	public JSONObject toJson() {
 		JSONObject json = new JSONObject();
 		json.put("id", id);
 		json.put("heure", heureDepart);
@@ -134,6 +153,6 @@ public class Trajet {
 		//TODO remplacer par nb de places restantes
 		json.put("nbPersonnes", listePassagers.size());
 		json.put("listeArret", listeArrets);
-		return json.toJSONString();
+		return json;
 	}
 }

@@ -17,8 +17,52 @@
 	<ui:include src="header.xhtml"></ui:include>
 	<c:choose>
 		<c:when test="#{utilisateur.connecte}">
-			Ok connecté !
+			<c:choose>
+				<c:when test="#{utilisateur.droitUtilisateur() == 0}">
+					<div class="panel panel-default text-center" style="float: none; margin:auto;">
+						<div class="panel-heading">
+							<h3>Vos outils</h3>
+						</div>
+						<div class="panel-body">
+						<div class="row">
+							<div class="col-md-4">
+								<a href="ajouterTrajet.xhtml" class="btn btn-success">Ajouter un trajet</a>
+							</div>
+							<div class="col-md-4">
+								<a href="consulter.xhtml" class="btn btn-success">Consulter ses trajets</a>
+							</div>
+							<div class="col-md-4">
+								<a href="profil.xhtml" class="btn btn-success">Profil</a>
+							</div>
+						</div>
+						</div>
+					</div>
+				</c:when>
+			</c:choose>
+			<c:choose>
+				<c:when test="#{utilisateur.droitUtilisateur() == 1}">
+					<div class="panel panel-default text-center" style="float: none; margin:auto;">
+						<div class="panel-heading">
+							<h3>Vos outils</h3>
+						</div>
+						<div class="panel-body">
+						<div class="row">
+							<div class="col-md-4">
+								<a href="rechercher.xhtml" class="btn btn-success">Rechercher un trajet</a>
+							</div>
+							<div class="col-md-4">
+								<a href="consulter.xhtml" class="btn btn-success">Consulter ses trajets</a>
+							</div>
+							<div class="col-md-4">
+								<a href="profil.xhtml" class="btn btn-success">Profil</a>
+							</div>
+						</div>
+						</div>
+					</div>
+				</c:when>
+			</c:choose>
 		</c:when>
+		
 		<c:otherwise>
 
 			<div class="container">

@@ -9,6 +9,8 @@ import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 
+import org.json.simple.JSONObject;
+
 import com.covoiturage.ejbclasses.TrajetBean;
 import com.covoiturage.entities.Trajet;
 import com.google.gson.Gson;
@@ -22,13 +24,14 @@ public class TrajetService {
 	@Produces(MediaType.APPLICATION_JSON)
 	@Path("/{email}")
 	public String obtenirTrajets(@PathParam("email") String email) {
-		Gson gson = new Gson();
 		String json = "[";
-		
+		JSONObject jsonObject = null;
 		List<Trajet> trajets = bean.obtenirTrajets(email);
 		
 		for (Trajet t : trajets) {
-			json += t.toJson() + ",";
+			jsonObject = t.toJson();
+			jsonObject.put("nbPlaceDispo", bean.obtenirNbPlaceDispo(t));
+			json += jsonObject.toJSONString() + ",";
 		}
 		
 		json = json.substring(0, json.length()-1);

@@ -6,23 +6,16 @@
 	<nav class="navbar navbar-inverse">
 		<div class="container">
 			<div class="navbar-header">
-				<a href="index.xhtml" class="navbar-brand">Shareaseat</a>
+				<a href="index.xhtml" id="home" class="navbar-brand">Shareaseat</a>
 			</div>
 
 			<ul class="nav navbar-nav pull-right">
 				<c:choose>
 					<c:when test="#{utilisateur.connecte}">
-						<li><a href="#" id="nav-recher">Rechercher</a></li>
 						<h:form>
-							<c:choose>
-								<c:when test="#{utilisateur.droitUtilisateur() == 0}">
-									<li><h:commandLink action="ajouterTrajet.xhtml"
-									id="nav-ajoutTrajet">Ajouter trajet</h:commandLink></li>
-								</c:when>
-							</c:choose>
-							<li><h:commandLink action="profil.xhtml"
-									id="nav-profil">Mon profil</h:commandLink></li>
-							<li><h:commandLink action="#{utilisateur.deconnexion}"
+							
+							
+							<li><h:commandLink styleClass="navbar-text" action="#{utilisateur.deconnexion}"
 									id="nav-deco">Déconnexion</h:commandLink></li>
 						</h:form>
 					</c:when>
