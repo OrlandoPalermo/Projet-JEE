@@ -23,14 +23,15 @@ public class TrajetService {
 	@Path("/{email}")
 	public String obtenirTrajets(@PathParam("email") String email) {
 		Gson gson = new Gson();
-		String json = "";
+		String json = "[";
 		
 		List<Trajet> trajets = bean.obtenirTrajets(email);
 		
 		for (Trajet t : trajets) {
-			json += t.toJson();
+			json += t.toJson() + ",";
 		}
 		
-		return json;
+		json = json.substring(0, json.length()-1);
+		return json + "]";
 	}
 }

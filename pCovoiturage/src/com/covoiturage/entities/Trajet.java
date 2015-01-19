@@ -68,9 +68,6 @@ public class Trajet {
 	public void setDate(String date) {
 		this.date = date;
 	}
-	
-	
-
 
 	public double getPrixParPlace() {
 		return prixParPlace;
@@ -130,9 +127,11 @@ public class Trajet {
 	
 	public String toJson() {
 		JSONObject json = new JSONObject();
+		json.put("id", id);
 		json.put("heure", heureDepart);
 		json.put("date", date);
 		json.put("prix", prixParPlace);
+		//TODO remplacer par nb de places restantes
 		json.put("nbPersonnes", listePassagers.size());
 		json.put("listeArret", listeArrets);
 		return json.toJSONString();
