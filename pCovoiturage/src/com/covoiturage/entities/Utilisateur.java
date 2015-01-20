@@ -24,9 +24,15 @@ import com.google.gson.Gson;
 
 @Entity
 @NamedQueries({
+	//Requêtes JPQL :
+	//--------------
+	//Sélectionne des utilisateurs en fonction de leur email
 	@NamedQuery(name="trouverUtili", query="SELECT u FROM Utilisateur u WHERE u.email = :email"),
+	//Sélectionne des utilisateurs en fonction de leur email et mot de passe
 	@NamedQuery(name="verifUtili", query="SELECT u FROM Utilisateur u WHERE u.email = :email AND u.password = :password"),
+	//Sélectionne des covoitureurs en fonction de leur nom et prénom
 	@NamedQuery(name="trouverCovoitureur", query="SELECT c FROM Covoitureur c WHERE c.nom = :nom AND c.prenom = :prenom"),
+	//Sélectionne des covoitureurs en fonction de leur email
 	@NamedQuery(name="trouverCovoitureurEmail", query="SELECT c FROM Covoitureur c WHERE c.email = :email")
 })
 public abstract class Utilisateur {
@@ -113,22 +119,6 @@ public abstract class Utilisateur {
 		}
 
 	}
-	
-	
-	public void modifierTrajet(Trajet aModifier, Trajet modificateur)
-	{
-		
-		if(listeTrajets.contains(aModifier))
-		{
-			/*Récupération de l'objet dans la liste par son index et assignation des nouvelles valeurs
-			 * à celui-ci via l'argument "modificateur" en appelant la méthode
-			 * "setNouvellesInfos" de la classe "Trajet"
-			 */
-			listeTrajets.get(listeTrajets.indexOf(aModifier)).setNouvellesInfos(modificateur);	
-		}
-	}
-	
-	
 	
 	//Calcule le nombre de trajets présents chez un utilisateur
 	public int nbTrajets()
@@ -238,6 +228,10 @@ public abstract class Utilisateur {
 		return listePlaintes;
 	}
 	
+	/**
+	 * Méthode qui renvoie un boolean si 2 utilisateurs sont les mêmes.
+	 * Le test se base sur leur adresse mail
+	 */
 	public boolean equals(Object o) {
 		if (o instanceof Utilisateur) {
 			return ((Utilisateur)o).email.equals(email); 

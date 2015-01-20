@@ -18,9 +18,17 @@ import com.covoiturage.entities.Trajet;
 public class TrajetMB {
 	@EJB
 	private TrajetBean bean;
+	
 	private String arretTmp;
+	/**
+	 * Contient une liste de trajets temporaires
+	 * Permet de les faire transiter au sein de la JSF
+	 */
 	private List<Trajet> trajets;
-	private Plainte plainte;
+	/**
+	 * Id d'un conducteur
+	 * Permet de le faire transiter au sein de la JSF
+	 */
 	private Long idConducteur;
 
 	public TrajetMB() {
@@ -46,15 +54,6 @@ public class TrajetMB {
 	public void setTrajets(List<Trajet> trajets) {
 		this.trajets = trajets;
 	}
-
-	public Plainte getPlainte() {
-		return plainte;
-	}
-
-	public void setPlainte(Plainte plainte) {
-		this.plainte = plainte;
-	}
-
 	
 	public Long getIdConducteur() {
 		return idConducteur;

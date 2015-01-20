@@ -57,6 +57,10 @@ public class Trajet {
 		
 	}
 	
+	/**
+	 * Supprime un utilisateur de la liste des passagers
+	 * @param utili
+	 */
 	public void supprimerPassager(Utilisateur utili) {
 		if (listePassagers.contains(utili))
 			listePassagers.remove(utili);
@@ -100,16 +104,11 @@ public class Trajet {
 		
 	}
 	
-	
-	/*Permet de mettre à jour les informations concernant un trajet*/
-	public void setNouvellesInfos(Trajet traj)
-	{
-		this.listeArrets.clear();
-		this.listeArrets.addAll(traj.listeArrets);
-		this.heureDepart = traj.heureDepart;
-		this.date = traj.date;
-	}
-	
+	/**
+	 * Renvoie le nombre de passagers qui participent
+	 * à ce trajet
+	 * @return
+	 */
 	public int nombrePassagers() {
 		return listePassagers.size();
 	}
@@ -122,34 +121,40 @@ public class Trajet {
 		this.listePassagers = listePassagers;
 	}
 
-	//Code à implémenter, ne sachant pas si on aura besoin de s'en servir
-	public String trouverArret(String nom)
-	{
-		return null;
-	}
-	
-	public Utilisateur trouverPassager(String nom)
-	{
-		return null;
-	}
-	
 	public List<String> getListeArrets(){
 		return listeArrets;
 	}
 
+	/**
+	 * Méthode permettant l'ajout d'utilisateurs à la liste
+	 * de passagers
+	 * @param utili
+	 */
 	public void ajouterPassager(Utilisateur utili) {
 		if (!listePassagers.contains(utili))
 			listePassagers.add(utili);
 	}
 	
+	/**
+	 * Méthode qui renvoie le point de départ
+	 * de ce trajet
+	 */
 	public String getPointDepart() {
 		return listeArrets.get(0);
 	}
 	
+	/**
+	 * Méthode qui renvoie le dernier arrêt
+	 * qui doit être atteint lors de ce trajet
+	 */
 	public String getPointDestination() {
 		return listeArrets.get(listeArrets.size() - 1);
 	}
 	
+	/**
+	 * Méthode permettant de supprimer le dernier
+	 * arrêt de la liste d'arrêts
+	 */
 	public void supprimerDernierPoint() {
 		listeArrets.remove(listeArrets.size() -1);
 	}

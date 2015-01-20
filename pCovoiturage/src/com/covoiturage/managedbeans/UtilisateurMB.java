@@ -27,15 +27,32 @@ public class UtilisateurMB implements Serializable {
 	private UtilisateurBean bean;
 	@EJB
 	private TrajetBean beanTrajet;
+	/**
+	 * Correspond à l'utilisateur connecté
+	 */
 	private Utilisateur utilisateur;
+	//BLOC DES VARIABLES POUR L'INSCRIPTION DE L'UTILISATEUR
 	private int typeUtilisateur;
 	private String nom, prenom, email, password, villeHabitation;
 	private int age;
 	private double nbKilometre;
 	private Voiture voiture;
-	//Si l'utilisateur est connecté
+	//FIN DU BLOC
+	/**
+	 * Variable qui indique si l'utilisateur est connecté
+	 * true  = connecté
+	 * false = déconnecté
+	 */
 	private boolean connecte;
+	/**
+	 * Contient un trajet temporaire pour faciliter la transition de
+	 * donnéess avec jsf
+	 */
 	private Trajet trajet;
+	/**
+	 * Arrêt temporaire qui sert de base pour l'ajax sur la page
+	 * ajouterArret.xhtml
+	 */
 	private String arretTmp;
 
 	public UtilisateurMB() {
@@ -49,6 +66,12 @@ public class UtilisateurMB implements Serializable {
 		trajet = new Trajet();
 	}
 	
+	/**
+	 * Méthode permettant d'ajouter un trajet.
+	 * Elle utilise le trajet temporaire, qui est destiné à être enregistrer
+	 * et l'utilisateur connecté pour pouvoir enregistrer le trajet en question
+	 * @return Redirection avec l'index
+	 */
 	public String ajouterTrajet() {
 		if (trajet.getPointDestination().equals(""))
 			trajet.supprimerDernierPoint();
@@ -56,8 +79,8 @@ public class UtilisateurMB implements Serializable {
 		try {
 			utilisateur.ajouterTrajet(trajet);
 		} catch (TrajetExistantException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			//Redirection vers le formulaire d'ajout si l'ajout a échoué
+			return "ajouterTrajet.xhtml";
 		}
 		bean.modifierUtilisateur(utilisateur);
 		trajet = new Trajet();
@@ -65,6 +88,11 @@ public class UtilisateurMB implements Serializable {
 		return "index.xhtml";
 	}
 	
+	/**
+	 * Méthode permettant à un utilisateur de rejoindre un trajet.
+	 * Elle utilise l'utilisateur connecté ainsi que le trajet stocké.
+	 * @return
+	 */
 	public String ajouterTrajetParticipation() {
 		
 		try {
@@ -75,19 +103,24 @@ public class UtilisateurMB implements Serializable {
 			trajet = new Trajet();
 			return "consulter.xhtml";
 		} catch (TrajetExistantException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			//Redirige vers la page recherche si la requête échoue
+			return "rechercher.xhtml";
 		}
-		
-		return "consulter.xhtml";
 	}
 
+	/**
+	 * Méthode permettant d'ajouter un utilisateur grâce au bloc de variable
+	 * situé plus haut dans le code.
+	 * De plus, elle connecte directement l'utilisateur au site.
+	 * @return
+	 */
 	public String ajouterUtilisateur() {
 		Utilisateur utili = null;
 		if (!nom.equals("") && !prenom.equals("") && !password.equals("") && !villeHabitation.equals("")) {
 			if (typeUtilisateur == 1) {
 				try {
 					utili = new Covoitureur(nom, prenom, age, email, password, villeHabitation, voiture.getMarque(), voiture.getNbPlace());
+					utilisateur = utili;
 					connecte = true;
 				} catch (PrixNegatifException | AgeIncorrectException | NombrePlaceException e) {
 					//TODO traiter les messages
@@ -96,6 +129,7 @@ public class UtilisateurMB implements Serializable {
 			} else if (typeUtilisateur == 2) {
 				try {
 					utili = new Passager(nom, prenom, age, email, password, villeHabitation);
+					utilisateur = utili;
 					connecte = true;
 				} catch (AgeIncorrectException e) {
 					// TODO Auto-generated catch block
@@ -110,6 +144,11 @@ public class UtilisateurMB implements Serializable {
 		return "index.xhtml";
 	}
 	
+	/**
+	 * Méthode permettant de connecter un utilisateur en fonction
+	 * de l'email et du password stocké.
+	 * @return Redirige vers l'index pour accéder directement au menu
+	 */
 	public String connexion() {
 		utilisateur = bean.connexion(email, password);
 		if (utilisateur != null)
@@ -121,6 +160,11 @@ public class UtilisateurMB implements Serializable {
 		return "index.xhtml";
 	}
 	
+	/**
+	 * Méthode permettant de déconnecter un utilisateur.
+	 * De plus elle remet à zéro toutes les variables utilisées précédemment
+	 * @return Redirige vers l'index
+	 */
 	public String deconnexion() {
 		nom = "";
 		prenom = "";
@@ -220,6 +264,11 @@ public class UtilisateurMB implements Serializable {
 		this.connecte = connecte;
 	}
 	
+	/**
+	 * Méthode permettant de connaître les droits des utilisateurs
+	 * en fonction de leur classe.
+	 * @return Retourne 999 lors d'une erreur impossible.
+	 */
 	public int droitUtilisateur() {
 		if (utilisateur instanceof Covoitureur)
 			return 0;
@@ -256,6 +305,10 @@ public class UtilisateurMB implements Serializable {
 		trajet.getListeArrets().add(arretTmp);
 	}
 	
+	/**
+	 * Méthode permettant de modifier son profil.
+	 * @return Redirige vers l'index quand la requête a été terminée
+	 */
 	public String modifierInfosProfil()
 	{
 		if(typeUtilisateur==1)
@@ -268,7 +321,7 @@ public class UtilisateurMB implements Serializable {
 			Passager pa = (Passager)utilisateur;
 			bean.modifierUtilisateur(pa);
 		}
-		return "profil.xhtml";
+		return "index.xhtml";
 	}
 	
 	

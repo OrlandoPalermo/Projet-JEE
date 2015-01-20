@@ -20,16 +20,31 @@ public class UtilisateurBean implements UtilisateurRemote {
 	@PersistenceContext(unitName="covoiturageJTA")
 	private EntityManager em;
 	
+	/**
+	 * Méthode permettant d'ajouter un utilisateur à la
+	 * base de données
+	 */
 	public void ajouterUtilisateur(Utilisateur utili) {
 		if (!presenceUtilisateur(utili))
 			em.persist(utili);
 	}
 	
+	/**
+	 * Méthode permettant de modifier un utilisateur
+	 * dans la base de données
+	 * @param newUtili
+	 */
 	public void modifierUtilisateur(Utilisateur newUtili) {
 		if (presenceUtilisateur(newUtili))
 			em.merge(newUtili);
 	}
 	
+	/**
+	 * Méthode permettant de vérifier la présence d'un utilisateur
+	 * dans la base de données
+	 * @return Renvoie true si l'utilisateur existe
+	 * @return Renvoie false si l'utilisateur n'existe pas
+	 */
 	public boolean presenceUtilisateur(Utilisateur utili) {
 		Utilisateur user = null;
 		Query q = em.createNamedQuery("trouverUtili");
@@ -46,6 +61,11 @@ public class UtilisateurBean implements UtilisateurRemote {
 		
 	}
 	
+	/**
+	 * Méthode permettant de connecter un utilisateur
+	 * @return Si la méthode renvoie un utilisateur, il sera connecté
+	 * @return Si la méthode renvoie null, il ne sera pas connecté
+	 */
 	public Utilisateur connexion(String email, String password) {
 		Utilisateur user = null;
 		Query q = em.createNamedQuery("verifUtili");
@@ -69,6 +89,10 @@ public class UtilisateurBean implements UtilisateurRemote {
 		}
 	}
 	
+	/**
+	 * Méthode permettant d'obtenir les données en json d'un 
+	 * covoitureur en fonction de son nom et prénom
+	 */
 	public String getCovoitureur(String nom, String prenom) {
 		Covoitureur covoi = null;
 		
@@ -84,6 +108,10 @@ public class UtilisateurBean implements UtilisateurRemote {
 		}
 	}
 
+	/**
+	 * Méthode permettant d'obtenir les données en json d'un 
+	 * covoitureur en fonction de son email
+	 */
 	@Override
 	public String getCovoitureur(String email) {
 		Covoitureur covoi = null;
@@ -99,6 +127,10 @@ public class UtilisateurBean implements UtilisateurRemote {
 		}
 	}
 
+	/**
+	 * Méthode permettant d'obtenir un utilisateur
+	 * en fonction de son id
+	 */
 	@Override
 	public Utilisateur obtenir(Long id) {
 		return em.find(Utilisateur.class, id);

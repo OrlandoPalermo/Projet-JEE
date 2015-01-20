@@ -18,7 +18,11 @@ import com.covoiturage.exceptions.PrixNegatifException;
 @Entity
 public class Covoitureur extends Utilisateur {
 
-	@OneToOne(cascade = CascadeType.ALL)
+	/**
+	 * La voiture sera supprimée si l'utilisateur qui l'utilisait
+	 * a été, lui aussi, supprimé de la base de données
+	 */
+	@OneToOne(cascade = CascadeType.ALL, orphanRemoval=true)
 	private Voiture voiture;
 	
 	public Covoitureur() {}
