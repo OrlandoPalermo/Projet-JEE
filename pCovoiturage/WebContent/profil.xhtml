@@ -23,32 +23,32 @@
 					<div class="form-group">
 						<div class="row">
 							<div class="form-group col-md-6">
-								<h:inputText styleClass="form-control" pt:placeholder="Nom"></h:inputText>
+								<h:inputText styleClass="form-control" value="#{utilisateur.utilisateur.nom}" pt:placeholder="Nom"></h:inputText>
 							</div>
 							<div class="form-group col-md-6">
-								<h:inputText styleClass="form-control" pt:placeholder="Prénom"></h:inputText>
+								<h:inputText styleClass="form-control" value="#{utilisateur.utilisateur.prenom}" pt:placeholder="Prénom"></h:inputText>
 							</div>	
 						</div>
 						
 					</div>
 					<div class="form-group">
-						<h:inputText styleClass="form-control" pt:placeholder="Age"></h:inputText>
+						<h:inputText styleClass="form-control" value="#{utilisateur.utilisateur.age}" pt:placeholder="Age"></h:inputText>
 					</div>
 					<div class="form-group">
-						<h:inputText styleClass="form-control" pt:placeholder="Numéro de téléphone"></h:inputText>
+						<h:inputText styleClass="form-control"  pt:placeholder="Numéro de téléphone"></h:inputText>
 					</div>
 					<div class="form-group">
-						<h:inputText styleClass="form-control" pt:placeholder="Ville habitation"></h:inputText>
+						<h:inputText styleClass="form-control" value="#{utilisateur.utilisateur.villeHabitation}" pt:placeholder="Ville habitation"></h:inputText>
 					</div>
 					
 					<c:choose>
 						<c:when test="#{utilisateur.droitUtilisateur() == 0}">
 							<h4>Information sur la voiture</h4>
 							<div class="form-group">
-								<h:inputText styleClass="form-control" pt:placeholder="Marque"></h:inputText>
+								<h:inputText styleClass="form-control" value="#{utilisateur.utilisateur.voiture.marque}" pt:placeholder="Marque"></h:inputText>
 							</div>
 							<div class="form-group">
-								<h:inputText styleClass="form-control" pt:placeholder="Nombre de places"></h:inputText>
+								<h:inputText styleClass="form-control" value="#{utilisateur.utilisateur.voiture.nbPlace}" pt:placeholder="Nombre de places"></h:inputText>
 							</div>
 						</c:when>
 					</c:choose>
@@ -56,13 +56,13 @@
 					<c:choose>
 						<c:when test="#{utilisateur.droitUtilisateur() == 1}">
 							<div class="form-group">
-								<h:inputText styleClass="form-control" pt:placeholder="Nombre de kilomètres possibles"></h:inputText>
+								<h:inputText styleClass="form-control" value="#{utilisateur.utilisateur.nbKmPossibles}" pt:placeholder="Nombre de kilomètres possibles"></h:inputText>
 							</div>
 						</c:when>
 					</c:choose>
 							
 					<div class="form-group text-center">
-						<h:commandButton styleClass="btn btn-success" value="Modifier son profil"></h:commandButton>
+						<h:commandButton styleClass="btn btn-success" value="Modifier son profil" action="#{utilisateur.modifierInfosProfil()}"></h:commandButton>
 					</div>
 				</h:form>
 			</div>

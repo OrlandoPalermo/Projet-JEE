@@ -50,7 +50,9 @@ public class UtilisateurMB implements Serializable {
 	}
 	
 	public String ajouterTrajet() {
-		trajet.ajouterPassager(utilisateur);
+		if (trajet.getPointDestination().equals(""))
+			trajet.supprimerDernierPoint();
+		trajet.setConducteur((Covoitureur)utilisateur);
 		try {
 			utilisateur.ajouterTrajet(trajet);
 		} catch (TrajetExistantException e) {
@@ -112,6 +114,10 @@ public class UtilisateurMB implements Serializable {
 		utilisateur = bean.connexion(email, password);
 		if (utilisateur != null)
 			connecte = true;
+		if(utilisateur instanceof Covoitureur)
+			typeUtilisateur = 1;
+		if(utilisateur instanceof Passager)
+			typeUtilisateur = 2;
 		return "index.xhtml";
 	}
 	
@@ -248,6 +254,21 @@ public class UtilisateurMB implements Serializable {
 	public void setArretTmp(String arretTmp) {
 		this.arretTmp = arretTmp;
 		trajet.getListeArrets().add(arretTmp);
+	}
+	
+	public String modifierInfosProfil()
+	{
+		if(typeUtilisateur==1)
+		{
+			Covoitureur co = (Covoitureur)utilisateur;
+			bean.modifierUtilisateur(co);
+		}
+		else if(typeUtilisateur==2)
+		{
+			Passager pa = (Passager)utilisateur;
+			bean.modifierUtilisateur(pa);
+		}
+		return "profil.xhtml";
 	}
 	
 	

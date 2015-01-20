@@ -26,6 +26,9 @@ public class Plainte {
 	}
 	
 	
+	public void setMessage(String message) {
+		this.message = message;
+	}
 	public boolean equals(Object o)
 	{
 		if (o instanceof Plainte)

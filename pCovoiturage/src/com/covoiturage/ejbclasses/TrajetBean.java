@@ -44,13 +44,21 @@ public class TrajetBean implements TrajetLocal {
 	
 	public List<Trajet> obtenirTrajets(String email) {
 		List<Trajet> trajets = new ArrayList<>();
-		Query q = em.createQuery("SELECT t FROM Trajet t JOIN t.listePassagers listeP WHERE listeP.email = :email");
+		Query q = em.createQuery("SELECT t FROM Trajet t WHERE t.conducteur.email = :email");
 		q.setParameter("email", email);
 		
 		try {
 			trajets = q.getResultList();
+			
+			if (trajets.size() == 0) {
+				Query queryPassagers = em.createQuery("SELECT t FROM Trajet t JOIN t.listePassagers p WHERE p.email = :email");
+				queryPassagers.setParameter("email", email);
+				
+				trajets = queryPassagers.getResultList();
+			}
 			return trajets;
 		} catch(Exception e) {
+			
 			
 		}
 		return trajets;
@@ -78,13 +86,11 @@ public class TrajetBean implements TrajetLocal {
 	}
 	
 	public int obtenirNbPlaceDispo(Trajet tra) {
-		for (Utilisateur utilisateur : tra.getListePassagers()) {
-			if (utilisateur instanceof Covoitureur) {
-				int nbPlace = ((Covoitureur)utilisateur).getVoiture().getNbPlace();
-				
-				return nbPlace - tra.nombrePassagers();
-			}
-		}
-		return -2;
+		int nbPlace = tra.getConducteur().getVoiture().getNbPlace();
+		return nbPlace - tra.nombrePassagers() - 1;			
+	}
+	
+	public Trajet obtenirTrajet(Long idTrajet) {
+		return em.find(Trajet.class, idTrajet);
 	}
 }

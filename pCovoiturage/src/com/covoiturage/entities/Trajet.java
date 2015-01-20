@@ -24,6 +24,7 @@ public class Trajet {
 	
 	@ElementCollection
 	private List<String> listeArrets;
+	private Covoitureur conducteur;
 	private List<Utilisateur> listePassagers;
 	private String heureDepart;
 	private String date;
@@ -54,6 +55,11 @@ public class Trajet {
 			listeArrets.set(listeArrets.indexOf(aRemplacer), remplace);
 		}
 		
+	}
+	
+	public void supprimerPassager(Utilisateur utili) {
+		if (listePassagers.contains(utili))
+			listePassagers.remove(utili);
 	}
 	
 	public String getHeureDepart() {
@@ -144,12 +150,26 @@ public class Trajet {
 		return listeArrets.get(listeArrets.size() - 1);
 	}
 	
+	public void supprimerDernierPoint() {
+		listeArrets.remove(listeArrets.size() -1);
+	}
+	
+	public Covoitureur getConducteur() {
+		return conducteur;
+	}
+
+	public void setConducteur(Covoitureur conducteur) {
+		this.conducteur = conducteur;
+	}
+
 	public JSONObject toJson() {
 		JSONObject json = new JSONObject();
 		json.put("id", id);
 		json.put("heure", heureDepart);
 		json.put("date", date);
 		json.put("prix", prixParPlace);
+		json.put("idConducteur", conducteur.getId());
+		json.put("emailConducteur", conducteur.getEmail());
 		//TODO remplacer par nb de places restantes
 		json.put("nbPersonnes", listePassagers.size());
 		json.put("listeArret", listeArrets);

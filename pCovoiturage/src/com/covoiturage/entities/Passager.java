@@ -24,4 +24,14 @@ public class Passager extends Utilisateur {
 		super(nom,prenom,age,email,password,villeHabitation);
 
 	}
+
+	public double getNbKmPossibles() {
+		return nbKmPossibles;
+	}
+
+	public void setNbKmPossibles(double nbKmPossibles) {
+		this.nbKmPossibles = nbKmPossibles;
+	}
+	
+	
 }

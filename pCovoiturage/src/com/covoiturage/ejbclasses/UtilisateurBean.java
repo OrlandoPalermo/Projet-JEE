@@ -98,4 +98,11 @@ public class UtilisateurBean implements UtilisateurRemote {
 			return "";
 		}
 	}
+
+	@Override
+	public Utilisateur obtenir(Long id) {
+		return em.find(Utilisateur.class, id);
+	}
+	
+	
 }
