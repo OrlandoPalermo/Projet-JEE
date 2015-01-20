@@ -44,6 +44,10 @@ public abstract class Utilisateur {
 	private Long id;
 	
 	private int age;
+	/**
+	 * Boolean qui indique si l'utilisateur est banni ou pas
+	 */
+	private boolean actif;
 	
 	@ManyToMany(cascade = CascadeType.ALL)
 	private List<Trajet> listeTrajets;
@@ -74,6 +78,7 @@ public abstract class Utilisateur {
 		this.nom = nom;
 		this.prenom = prenom;
 		setAge(age);
+		actif = true;
 		this.email = email;
 		this.password = password;
 		Calendar cal = Calendar.getInstance();
@@ -243,5 +248,13 @@ public abstract class Utilisateur {
 		Gson gson = new Gson();
 		return gson.toJson(this);
 	}
+	public boolean isActif() {
+		return actif;
+	}
+	public void setActif(boolean actif) {
+		this.actif = actif;
+	}
+	
+	
 }
 

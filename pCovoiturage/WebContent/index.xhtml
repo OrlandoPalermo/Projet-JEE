@@ -40,20 +40,27 @@
 				</c:when>
 			</c:choose>
 			<c:choose>
-				<c:when test="#{utilisateur.droitUtilisateur() == 1}">
+				<c:when test="#{utilisateur.droitUtilisateur() >= 1}">
 					<div class="panel panel-default text-center" style="float: none; margin:auto;">
 						<div class="panel-heading">
 							<h3>Vos outils</h3>
 						</div>
 						<div class="panel-body">
 						<div class="row">
-							<div class="col-md-4">
+							<c:choose>
+								<c:when test="#{utilisateur.droitUtilisateur() == 2}">
+									<div class="col-md-3">
+										<a href="admin.xhtml" class="btn btn-success">Options administrateur</a>
+									</div>
+							</c:when>
+							</c:choose>
+							<div class="col-md-3">
 								<a href="rechercher.xhtml" class="btn btn-success">Rechercher un trajet</a>
 							</div>
-							<div class="col-md-4">
+							<div class="col-md-3">
 								<a href="consulter.xhtml" class="btn btn-success">Consulter ses trajets</a>
 							</div>
-							<div class="col-md-4">
+							<div class="col-md-3">
 								<a href="profil.xhtml" class="btn btn-success">Profil</a>
 							</div>
 						</div>
@@ -61,6 +68,7 @@
 					</div>
 				</c:when>
 			</c:choose>
+			
 		</c:when>
 		
 		<c:otherwise>
@@ -91,6 +99,7 @@
 											value="#{utilisateur.typeUtilisateur}">
 											<f:selectItem id="covoi" itemValue="1" itemLabel="Covoitureur"></f:selectItem>
 											<f:selectItem id="pass"  itemValue="2" itemLabel="Passager"></f:selectItem>
+											<f:selectItem id="admin"  itemValue="3" itemLabel="Admin"></f:selectItem>
 										</h:selectOneRadio>
 									</div>
 								</div>

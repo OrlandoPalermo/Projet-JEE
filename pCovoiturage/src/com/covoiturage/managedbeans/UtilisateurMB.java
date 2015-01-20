@@ -135,6 +135,15 @@ public class UtilisateurMB implements Serializable {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
 				}
+			} else if (typeUtilisateur == 3) {
+				try {
+					utili = new Admin(nom, prenom, age, email, password, villeHabitation);
+					utilisateur = utili;
+					connecte = true;
+				} catch (AgeIncorrectException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
 			}
 			
 			if (connecte)

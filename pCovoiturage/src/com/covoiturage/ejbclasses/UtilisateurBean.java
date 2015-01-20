@@ -1,5 +1,8 @@
 package com.covoiturage.ejbclasses;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import javax.ejb.LocalBean;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
@@ -63,8 +66,8 @@ public class UtilisateurBean implements UtilisateurRemote {
 	
 	/**
 	 * Méthode permettant de connecter un utilisateur
-	 * @return Si la méthode renvoie un utilisateur, il sera connecté
-	 * @return Si la méthode renvoie null, il ne sera pas connecté
+	 * @return Si la méthode renvoie un utilisateur qui est actif, il sera connecté.
+	 * @return Si la méthode renvoie un utilisateur qui est inactif ou null, il ne sera pas connecté
 	 */
 	public Utilisateur connexion(String email, String password) {
 		Utilisateur user = null;
@@ -73,7 +76,7 @@ public class UtilisateurBean implements UtilisateurRemote {
 		q.setParameter("password", password);
 		try {
 			Object o = q.getSingleResult();
-						
+			
 			if (o instanceof Covoitureur)
 				user = (Covoitureur) o;
 			else if (o instanceof Passager)
@@ -83,7 +86,10 @@ public class UtilisateurBean implements UtilisateurRemote {
 			else
 				return null;
 			
-			return user;
+			if (user != null && user.isActif())
+				return user;
+			else
+				return null;
 		} catch(Exception e) {
 			return null;
 		}
@@ -136,5 +142,27 @@ public class UtilisateurBean implements UtilisateurRemote {
 		return em.find(Utilisateur.class, id);
 	}
 	
+	/**
+	 * Renvoie une liste des covoitueurs qui ont reçu des plaintes
+	 * @return
+	 */
+	public List<Covoitureur> obtenirCovoitueurFautifs() {
+		Query q = em.createQuery("SELECT c FROM Covoitureur c");
+		try {
+			List<Covoitureur> covois = q.getResultList();
+			List<Covoitureur> covoisABannir = new ArrayList<Covoitureur>();
+			for (Covoitureur c : covois) {
+				if (c.nbPlaintes() >= 1 && c.isActif())
+					covoisABannir.add(c);
+			}
+			return covoisABannir;
+		} catch(Exception e) {
+			return null;
+		}
+	}
 	
+	public void bannirUtilisateur(Covoitureur covoi) {
+		covoi.setActif(false);
+		modifierUtilisateur(covoi);
+	}
 }
