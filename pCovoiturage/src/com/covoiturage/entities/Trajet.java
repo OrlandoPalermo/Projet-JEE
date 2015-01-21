@@ -8,10 +8,12 @@ import javax.persistence.ElementCollection;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.Transient;
 
 import org.json.simple.JSONObject;
 
 import com.covoiturage.exceptions.ArretDejaExistantException;
+import com.covoiturage.exceptions.NombrePlaceException;
 import com.covoiturage.exceptions.PrixNegatifException;
 import com.google.gson.Gson;
 
@@ -29,6 +31,9 @@ public class Trajet {
 	private String heureDepart;
 	private String date;
 	private double prixParPlace;
+	
+	@Transient
+	private ToTransform toTransform;
 	
 	public Trajet() {
 		listeArrets = new ArrayList<String>();
@@ -130,9 +135,20 @@ public class Trajet {
 	 * de passagers
 	 * @param utili
 	 */
-	public void ajouterPassager(Utilisateur utili) {
+	public void ajouterPassager(Utilisateur utili) throws NombrePlaceException {
+		if (obtenirNombrePlaceLibre() <= 0)
+			throw new NombrePlaceException();
 		if (!listePassagers.contains(utili))
 			listePassagers.add(utili);
+	}
+	
+	/**
+	 * Méthode permettant de connaître combien de places libres
+	 * qu'il reste dans le trajet
+	 */
+	
+	public int obtenirNombrePlaceLibre() {
+		return conducteur.getVoiture().getNbPlace() - 1 - nombrePassagers();
 	}
 	
 	/**
@@ -166,18 +182,23 @@ public class Trajet {
 	public void setConducteur(Covoitureur conducteur) {
 		this.conducteur = conducteur;
 	}
+	
+	public List<String> obtenirCopieListeArret() {
+		List<String> copieListeArrets = new ArrayList<>();
+		copieListeArrets.addAll(listeArrets);
+		return copieListeArrets;
+	}
+	
+	public long getId() {
+		return id;
+	}
+
+	public void setId(long id) {
+		this.id = id;
+	}
 
 	public JSONObject toJson() {
-		JSONObject json = new JSONObject();
-		json.put("id", id);
-		json.put("heure", heureDepart);
-		json.put("date", date);
-		json.put("prix", prixParPlace);
-		json.put("idConducteur", conducteur.getId());
-		json.put("emailConducteur", conducteur.getEmail());
-		//TODO remplacer par nb de places restantes
-		json.put("nbPersonnes", listePassagers.size());
-		json.put("listeArret", listeArrets);
-		return json;
+		toTransform = new ToTransformJSON(this);
+		return (JSONObject) toTransform.toTransform();
 	}
 }

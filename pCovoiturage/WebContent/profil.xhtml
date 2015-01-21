@@ -15,7 +15,9 @@
 	</h:head>
 	<body>
 		<ui:include src="header.xhtml"></ui:include>
-		<div class="row col-md-12" style="float: none; margin: auto;">
+		<c:choose>
+			<c:when test="#{utilisateur.connecte}">
+				<div class="row col-md-12" style="float: none; margin: auto;">
 			<div class="panel panel-default">
 			<div class="panel-heading text-center"><h3>Mon profil</h3></div>
 			<div class="panel-body">
@@ -35,7 +37,7 @@
 						<h:inputText styleClass="form-control" value="#{utilisateur.utilisateur.age}" pt:placeholder="Age"></h:inputText>
 					</div>
 					<div class="form-group">
-						<h:inputText styleClass="form-control"  pt:placeholder="Numéro de téléphone"></h:inputText>
+						<h:inputText styleClass="form-control" value="#{utilisateur.utilisateur.numero}" pt:placeholder="Numéro de téléphone"></h:inputText>
 					</div>
 					<div class="form-group">
 						<h:inputText styleClass="form-control" value="#{utilisateur.utilisateur.villeHabitation}" pt:placeholder="Ville habitation"></h:inputText>
@@ -68,6 +70,14 @@
 			</div>
 		</div>
 		</div>
+		
+			</c:when>
+			<c:otherwise>
+				<div class="container">
+					<div class="alert alert-warning text-center"><h2>Vous n'êtes pas connecté !</h2></div>
+				</div>
+			</c:otherwise>
+		</c:choose>
 		
 	</body>
 </html>

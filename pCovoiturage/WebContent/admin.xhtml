@@ -65,12 +65,16 @@
 						</div>
 					</c:when>
 					<c:otherwise>
-						<div class="warning">Vous n'êtes pas autorisé à entrer sur cette page !</div>
+						<div class="container">
+							<div class="alert alert-warning text-center"><h2>Vous n'êtes pas autorisé à entrer sur cette page !</h2></div>
+						</div>
 					</c:otherwise>
 				</c:choose>
 			</c:when>
 			<c:otherwise>
-				<div class="warning">Vous n'êtes pas autorisé à entrer sur cette page !</div>
+				<div class="container">
+							<div class="alert alert-warning text-center"><h2>Vous n'êtes pas autorisé à entrer sur cette page !</h2></div>
+						</div>
 			</c:otherwise>
 		</c:choose>
 		<h:outputScript name="js/jquery.min.js" />

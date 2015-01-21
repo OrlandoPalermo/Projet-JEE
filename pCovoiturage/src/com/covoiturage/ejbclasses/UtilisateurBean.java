@@ -108,7 +108,7 @@ public class UtilisateurBean implements UtilisateurRemote {
 		
 		try {
 			covoi = (Covoitureur) q.getSingleResult();
-			return covoi.toJson();
+			return covoi.toJson().toJSONString();
 		} catch(Exception e) {
 			return "";
 		}
@@ -127,7 +127,7 @@ public class UtilisateurBean implements UtilisateurRemote {
 		
 		try {
 			covoi = (Covoitureur) q.getSingleResult();
-			return covoi.toJson();
+			return covoi.toJson().toJSONString();
 		} catch(Exception e) {
 			return "";
 		}
@@ -161,6 +161,10 @@ public class UtilisateurBean implements UtilisateurRemote {
 		}
 	}
 	
+	/**
+	 * Méthode qui permet de bannir un covoitureur
+	 * @param covoi
+	 */
 	public void bannirUtilisateur(Covoitureur covoi) {
 		covoi.setActif(false);
 		modifierUtilisateur(covoi);

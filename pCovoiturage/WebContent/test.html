@@ -5,6 +5,14 @@
 <title>Insert title here</title>
 </head>
 <body>
-#{utilisateurMB.utili.nom}
+<form action="../services/utilisateur/participer" method="post">
+		<p>
+			idTrajet : <input type="text" name="idTrajet" />
+		</p>
+		<p>
+			idPassager : <input type="text" name="idPassager" />
+		</p>
+		<input type="submit" value="Ajouter participation" />
+	</form>
 </body>
 </html>

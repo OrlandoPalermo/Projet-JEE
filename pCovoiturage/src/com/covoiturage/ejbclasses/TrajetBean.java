@@ -122,4 +122,17 @@ public class TrajetBean implements TrajetLocal {
 	public Trajet obtenirTrajet(Long idTrajet) {
 		return em.find(Trajet.class, idTrajet);
 	}
+	
+	/**
+	 * Retourne tous les trajets de la base de données
+	 */
+	public List<Trajet> obtenirTousLesTrajets() {
+		Query q = em.createQuery("SELECT t FROM Trajet t");
+		try {
+			return q.getResultList();
+			
+		} catch(Exception e) {
+			return null;
+		}
+	}
 }

@@ -41,5 +41,8 @@ public class Plainte {
 		}
 		return false;
 	}
-
+	
+	public String toString() {
+		return "\"" + message + "\"";
+	}
 }

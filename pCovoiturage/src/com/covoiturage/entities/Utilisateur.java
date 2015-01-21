@@ -17,10 +17,19 @@ import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
 
 
+
+
+
+import javax.persistence.Transient;
+
+import org.json.simple.JSONArray;
+import org.json.simple.JSONObject;
+
 import com.covoiturage.exceptions.AgeIncorrectException;
 import com.covoiturage.exceptions.EmailIncorrectException;
 import com.covoiturage.exceptions.TrajetExistantException;
 import com.google.gson.Gson;
+import com.google.gson.JsonObject;
 
 @Entity
 @NamedQueries({
@@ -37,12 +46,14 @@ import com.google.gson.Gson;
 })
 public abstract class Utilisateur {
 
-	private String nom, prenom, email, password,dateInscription, villeHabitation;
+	private String nom, prenom, email, password,dateInscription, villeHabitation, numero;
 
 	@Id
 	@GeneratedValue
 	private Long id;
 	
+	@Transient
+	private ToTransform toTransform;
 	private int age;
 	/**
 	 * Boolean qui indique si l'utilisateur est banni ou pas
@@ -244,9 +255,37 @@ public abstract class Utilisateur {
 		return false;
 	}
 	
-	public String toJson() {
-		Gson gson = new Gson();
-		return gson.toJson(this);
+	public List<Trajet> obtenirCopieListeTrajets() {
+		List<Trajet> trajetsCopie = new ArrayList<>();
+		trajetsCopie.addAll(listeTrajets);
+		return trajetsCopie;
+	}
+	
+	public JSONObject toJson() {
+		/*JSONObject json = new JSONObject();
+		
+		json.put("nom", nom);
+		json.put("prenom", prenom);
+		json.put("dateInscription", dateInscription);
+		json.put("password", password);
+		json.put("id", id);
+		json.put("email", email);
+		json.put("villeHabitation", villeHabitation);
+		
+		JSONObject jsonPlaintes = new JSONObject();
+		json.put("listePlaintes", listePlaintes);
+		
+		JSONArray jsonTrajets = new JSONArray();
+		
+		for (Trajet tra : listeTrajets) {
+			jsonTrajets.add(tra.toJson());
+		}
+		
+		
+		json.put("trajets", jsonTrajets);
+		return json;*/
+		toTransform = new ToTransformJSON(this);
+		return (JSONObject) toTransform.toTransform();
 	}
 	public boolean isActif() {
 		return actif;
@@ -254,7 +293,13 @@ public abstract class Utilisateur {
 	public void setActif(boolean actif) {
 		this.actif = actif;
 	}
-	
+	public String getNumero() {
+		return numero;
+	}
+	public void setNumero(String numero) {
+		this.numero = numero;
+	}
+
 	
 }
 

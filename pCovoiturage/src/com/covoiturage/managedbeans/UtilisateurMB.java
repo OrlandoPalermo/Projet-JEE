@@ -37,6 +37,7 @@ public class UtilisateurMB implements Serializable {
 	private int age;
 	private double nbKilometre;
 	private Voiture voiture;
+	private String numero;
 	//FIN DU BLOC
 	/**
 	 * Variable qui indique si l'utilisateur est connecté
@@ -94,14 +95,18 @@ public class UtilisateurMB implements Serializable {
 	 * @return
 	 */
 	public String ajouterTrajetParticipation() {
-		
-		try {
-			utilisateur.ajouterTrajet(trajet);
-			trajet.ajouterPassager(utilisateur);
-			beanTrajet.modifierTrajet(trajet);
-			bean.modifierUtilisateur(utilisateur);
-			trajet = new Trajet();
-			return "consulter.xhtml";
+		try {	
+			try {
+				trajet.ajouterPassager(utilisateur);
+				utilisateur.ajouterTrajet(trajet);
+				beanTrajet.modifierTrajet(trajet);
+				bean.modifierUtilisateur(utilisateur);
+				trajet = new Trajet();
+				return "consulter.xhtml";
+			} catch (NombrePlaceException e) {
+				//Redirige vers la page recherche s'il n'y a plus de places disponibles
+				return "rechercher.xhtml";
+			}
 		} catch (TrajetExistantException e) {
 			//Redirige vers la page recherche si la requête échoue
 			return "rechercher.xhtml";
@@ -120,29 +125,29 @@ public class UtilisateurMB implements Serializable {
 			if (typeUtilisateur == 1) {
 				try {
 					utili = new Covoitureur(nom, prenom, age, email, password, villeHabitation, voiture.getMarque(), voiture.getNbPlace());
+					utili.setNumero(numero);
 					utilisateur = utili;
 					connecte = true;
 				} catch (PrixNegatifException | AgeIncorrectException | NombrePlaceException e) {
-					//TODO traiter les messages
-					e.printStackTrace();
+					return "index.xhtml";
 				}	
 			} else if (typeUtilisateur == 2) {
 				try {
 					utili = new Passager(nom, prenom, age, email, password, villeHabitation);
 					utilisateur = utili;
+					utili.setNumero(numero);
 					connecte = true;
 				} catch (AgeIncorrectException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
+					return "index.xhtml";
 				}
 			} else if (typeUtilisateur == 3) {
 				try {
 					utili = new Admin(nom, prenom, age, email, password, villeHabitation);
 					utilisateur = utili;
+					utili.setNumero(numero);
 					connecte = true;
 				} catch (AgeIncorrectException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
+					return "index.xhtml";
 				}
 			}
 			
@@ -331,6 +336,14 @@ public class UtilisateurMB implements Serializable {
 			bean.modifierUtilisateur(pa);
 		}
 		return "index.xhtml";
+	}
+
+	public String getNumero() {
+		return numero;
+	}
+
+	public void setNumero(String numero) {
+		this.numero = numero;
 	}
 	
 	

@@ -9,16 +9,29 @@ import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 
+import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 
 import com.covoiturage.ejbclasses.TrajetBean;
 import com.covoiturage.entities.Trajet;
-import com.google.gson.Gson;
 
 @Path("/trajet")
 public class TrajetService {
 	@EJB
 	private TrajetBean bean;
+	
+	@GET
+	@Path("/")
+	@Produces(MediaType.APPLICATION_JSON)
+	public String obtenirTrajets() {
+		JSONArray arrayTrajet = new JSONArray();
+		List<Trajet> listTrajets = bean.obtenirTousLesTrajets();
+		for (Trajet t : listTrajets) {
+			arrayTrajet.add(t.toJson());
+		}
+		
+		return arrayTrajet.toJSONString();
+	}
 	
 	@GET
 	@Produces(MediaType.APPLICATION_JSON)
