@@ -31,9 +31,9 @@ public class ToTransformJSON implements ToTransform {
 				jsonTrajets.add(tra.toJson());
 			}
 			if (objectToTransform instanceof Covoitureur) {
-				
+				json.put("typeUtilisateur", "1");
 			} else if (objectToTransform instanceof Passager) {
-				
+				json.put("typeUtilisateur", "2");
 			}		
 			
 			json.put("trajets", jsonTrajets);
@@ -46,9 +46,11 @@ public class ToTransformJSON implements ToTransform {
 			json.put("date", trajet.getDate());
 			json.put("prix", trajet.getPrixParPlace());
 			json.put("idConducteur", trajet.getConducteur().getId());
+			json.put("numeroConducteur", trajet.getConducteur().getNumero());
 			json.put("emailConducteur", trajet.getConducteur().getEmail());
 			json.put("nbPersonnes", trajet.nombrePassagers());
 			json.put("listeArret", trajet.obtenirCopieListeArret());
+			json.put("nbPlaceDispo", trajet.obtenirNombrePlaceLibre());
 			return json;
 		}
 		return null;
