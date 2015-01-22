@@ -34,11 +34,12 @@
 		<class>com.covoiturage.entities.Voiture</class>
 		<exclude-unlisted-classes>true</exclude-unlisted-classes>
 		<properties>
-		   <!--  <property name="javax.persistence.jdbc.driver" value="org.apache.derby.jdbc.ClientDriver"/> -->
-		  <!--  	<property name="javax.persistence.jdbc.url" value="jdbc:derby://localhost:1527/DBCovoiturageg1c"/>-->
-		  <!--  	<property name="javax.persistence.jdbc.user" value="APP"/>-->
-		  <!--  	<property name="javax.persistence.jdbc.password" value="APP"/>-->
-
+		    <property name="javax.persistence.jdbc.driver" value="org.apache.derby.jdbc.ClientDriver"/>
+			<property name="javax.persistence.jdbc.url" value="jdbc:derby://54.171.91.200:1527/DBCovoiturageg1c"/>
+			<property name="javax.persistence.jdbc.user" value="APP"/>
+			<property name="javax.persistence.jdbc.password" value="APP"/>
+			<property name="eclipselink.ddl-generation" value="create-tables"/>
+			<property name="eclipselink.ddl-generation.output-mode" value="database" />
 			
 		</properties>
 	</persistence-unit>
