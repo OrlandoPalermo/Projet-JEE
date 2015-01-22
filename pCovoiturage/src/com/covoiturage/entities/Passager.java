@@ -4,7 +4,7 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 
-import com.covoiturage.exceptions.AgeIncorrectException;
+import com.covoiturage.exceptions.AgeIncorrectException1;
 
 @Entity
 public class Passager extends Utilisateur {
@@ -13,14 +13,14 @@ public class Passager extends Utilisateur {
 	public Passager() {}
 	
 	public Passager(String nom, String prenom, int age, String email,
-			String password, String villeHabitation, double nbKm) throws AgeIncorrectException {
+			String password, String villeHabitation, double nbKm) throws AgeIncorrectException1 {
 		super(nom,prenom,age,email,password,villeHabitation);
 		//TODO exception à faire
 		nbKmPossibles = nbKm;
 	}
 	
 	public Passager(String nom, String prenom, int age, String email,
-			String password, String villeHabitation) throws AgeIncorrectException {
+			String password, String villeHabitation) throws AgeIncorrectException1 {
 		super(nom,prenom,age,email,password,villeHabitation);
 
 	}

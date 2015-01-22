@@ -1,0 +1,360 @@
+<!DOCTYPE html>
+<html xmlns:f="http://xmlns.jcp.org/jsf/core"
+	xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+	xmlns:h="http://xmlns.jcp.org/jsf/html"
+	xmlns:c="http://xmlns.jcp.org/jsp/jstl/core"
+	xmlns:jsf="http://xmlns.jcp.org/jsf"
+	xmlns:pt="http://xmlns.jcp.org/jsf/passthrough">
+<h:head>
+	<meta charset="UTF-8" />
+	<h:outputStylesheet name="css/css.css" />
+	<h:outputStylesheet name="css/bootstrap.min.css" target="head" />
+	<h:outputStylesheet name="css/jquery-ui.min.css" />
+
+	<title>Shareaseat</title>
+</h:head>
+<body>
+	<ui:include src="header1.xhtml"></ui:include>
+	
+	<c:choose>
+		<c:when test="#{utilisateur.connecte}">
+			<c:choose>
+				<c:when test="#{utilisateur.droitUtilisateur() == 0}">
+				<div class="container">
+					<div class="panel panel-default text-center" style="float: none; margin:auto;">
+						<div class="panel-heading">
+							<h3>Vos outils</h3>
+						</div>
+						<div class="panel-body">
+						<div class="row">
+							<div class="col-md-4">
+								<a href="ajouterTrajet1.xhtml" class="btn btn-success">Ajouter un trajet</a>
+							</div>
+							<div class="col-md-4">
+								<a href="consulter1.xhtml" class="btn btn-success">Consulter ses trajets</a>
+							</div>
+							<div class="col-md-4">
+								<a href="profil1.xhtml" class="btn btn-success">Profil</a>
+							</div>
+						</div>
+						</div>
+					</div>
+					</div>
+				</c:when>
+			</c:choose>
+			<c:choose>
+				<c:when test="#{utilisateur.droitUtilisateur() >= 1}">
+				<div class="container">
+					<div class="panel panel-default text-center" style="float: none; margin:auto;">
+						<div class="panel-heading">
+							<h3>Vos outils</h3>
+						</div>
+						<div class="panel-body">
+						<div class="row">
+							<c:choose>
+								<c:when test="#{utilisateur.droitUtilisateur() == 2}">
+									<div class="col-md-3">
+										<a href="admin1.xhtml" class="btn btn-success">Options administrateur</a>
+									</div>
+							</c:when>
+							</c:choose>
+							<div class="col-md-3">
+								<a href="rechercher1.xhtml" class="btn btn-success">Rechercher un trajet</a>
+							</div>
+							<div class="col-md-3">
+								<a href="consulter1.xhtml" class="btn btn-success">Consulter ses trajets</a>
+							</div>
+							<div class="col-md-3">
+								<a href="profil1.xhtml" class="btn btn-success">Profil</a>
+							</div>
+						</div>
+						</div>
+					</div>
+					</div>
+				</c:when>
+			</c:choose>
+			
+		</c:when>
+		
+		<c:otherwise>
+
+			<div class="container">
+				<div class="row">
+					<div class="col-md-12 text-center">
+						<div class="well well-sm" style="opacity: 0.6">
+							<h1>Shareaseat</h1>
+						</div>
+					</div>
+				</div>
+
+				<div class="row">
+					<div class="col-md-4" id="siderbar">
+						<div class="row">
+							<div class="col-md-12 btn-accueil btn-accueil-inscr">Inscription</div>
+							<div class="col-md-12 btn-accueil btn-accueil-connex">Connexion</div>
+							<div class="col-md-12 btn-accueil btn-accueil-recher">Rechercher</div>
+						</div>
+					</div>
+					<div class="col-md-8 form-accueil" id="panel-infos">
+						<div id="cont-inscr" class="hidden">
+							<h:form id="inscr">
+								<div class="row" style="margin: 5px;">
+									<div class=" col-md-offset-5">
+										<h:selectOneRadio id="typeUtili"
+											value="#{utilisateur.typeUtilisateur}">
+											<f:selectItem id="covoi" itemValue="1" itemLabel="Covoitureur"></f:selectItem>
+											<f:selectItem id="pass"  itemValue="2" itemLabel="Passager"></f:selectItem>
+											<f:selectItem id="admin"  itemValue="3" itemLabel="Admin"></f:selectItem>
+										</h:selectOneRadio>
+									</div>
+								</div>
+								<div class="row">
+									<div class="form-group col-md-12">
+										<div class="col-md-6">
+											<h:inputText value="#{utilisateur.nom}" id="login-nom"
+												styleClass="form-control" pt:placeholder="Votre nom"></h:inputText>
+										</div>
+										<div class="col-md-6">
+											<h:inputText value="#{utilisateur.prenom}" id="login-prenom"
+												styleClass="form-control" pt:placeholder="Votre prénom" />
+										</div>
+									</div>
+								</div>
+
+								<div class="row">
+									<div class="form-group col-md-6">
+										<h:inputText value="#{utilisateur.email}" id="login-inscr"
+											styleClass="form-control"
+											pt:placeholder="Votre adresse e-mail" />
+									</div>
+								</div>
+
+								<div class="row">
+									<div class="form-group col-md-6">
+										<h:inputText value="#{utilisateur.age}" id="age-inscr"
+											styleClass="form-control" pt:placeholder="Votre âge" />
+									</div>
+								</div>
+
+								<div class="row">
+									<div class="form-group col-md-6">
+										<h:inputSecret value="#{utilisateur.password}"
+											id="password-inscr" styleClass="form-control"
+											pt:placeholder="Votre mot de passe" />
+									</div>
+								</div>
+								<div class="row">
+									<div class="form-group col-md-6">
+										<h:inputText value="#{utilisateur.villeHabitation}"
+											id="villeHabitation-inscr" styleClass="form-control"
+											pt:placeholder="Votre ville" />
+									</div>
+								</div>
+								<div class="row">
+									<div class="form-group col-md-6">
+										<h:inputText value="#{utilisateur.numero}"
+											id="numero-inscr" styleClass="form-control"
+											pt:placeholder="Votre numéro de téléphone" />
+									</div>
+								</div>
+								<div id="data-covoi" class="hidden">
+									<div class="row">
+										<div class="form-group col-md-6">
+											<h:inputText value="#{utilisateur.voiture.marque}"
+												id="voiture-inscr" styleClass="form-control"
+												pt:placeholder="La marque de votre voiture" />
+										</div>
+									</div>
+									<div class="row">
+										<div class="form-group col-md-6">
+											Nombre de places disponibles :
+											<h:selectOneRadio value="#{utilisateur.voiture.nbPlace}" required="true">
+												<f:selectItem itemValue="2" itemLabel="2"></f:selectItem>
+												<f:selectItem itemValue="3" itemLabel="3"></f:selectItem>
+												<f:selectItem itemValue="4" itemLabel="4"></f:selectItem>
+												<f:selectItem itemValue="5" itemLabel="5"></f:selectItem>
+												<f:selectItem itemValue="6" itemLabel="6"></f:selectItem>
+												<f:selectItem itemValue="7" itemLabel="7"></f:selectItem>
+											</h:selectOneRadio>
+										</div>
+									</div>
+								</div>
+
+								<div class="row">
+									<div class="form-group col-md-6">
+										<h:commandButton value="S'inscrire"
+											styleClass="btn btn-success"
+											action="#{utilisateur.ajouterUtilisateur()}" />
+									</div>
+								</div>
+
+
+
+							</h:form>
+						</div>
+						<div id="cont-connex" class="hidden">
+							<h:form styleClass="form form-vertical text-center col-md-6">
+								<div class="form-group">
+									<label for="login-connex">Login</label>
+									<h:inputText value="#{utilisateur.email}" id="login-connex"
+										styleClass="form-control"
+										pt:placeholder="Votre adresse e-mail" />
+								</div>
+								<div class="form-group">
+									<label for="password-connex">Mot de passe</label>
+									<h:inputSecret value="#{utilisateur.password}" id="password-connex"
+										styleClass="form-control" pt:placeholder="Votre mot de passe" />
+								</div>
+
+								<h:commandButton action="#{utilisateur.connexion()}" value="Se connecter"
+									styleClass="btn btn-success"></h:commandButton>
+							</h:form>
+						</div>
+						<div id="cont-recher" class="hidden">
+							<div class="row text-center">
+								<h4 class="col-md-12">Indiquez votre parcours</h4>
+							</div>
+							<div class="alert alert-warning text-center">
+								<h4>Veuillez vous connecter pour effectuer une recherche</h4>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+			<div id="map-canvas"></div>
+			
+			<script type="text/javascript"
+				src="https://maps.googleapis.com/maps/api/js?v=3.exp3&amp;libraries=places"></script>
+			<h:outputScript name="js/jquery.min.js" />
+			<h:outputScript name="js/jquery-ui.min.js" />
+			<h:outputScript name="js/bootstrap.min.js" />
+			<script>
+		function initializePtDepart() {
+			var input = document.getElementById('recher:ptDepart');
+			var options = {
+			  types: ['(cities)'],
+			  componentRestrictions: {country: 'be'}
+			};
+	 
+			autocomplete = new google.maps.places.Autocomplete(input, options);
+ 
+      	}
+      	google.maps.event.addDomListener(window, 'load', initializePtDepart);
+
+	    function initializePtArrive() {
+			var input = document.getElementById('recher:ptArrive');
+			var options = {
+			  types: ['(cities)'],
+			  componentRestrictions: {country: 'be'}
+			};
+	 
+			autocomplete = new google.maps.places.Autocomplete(input, options);
+	 
+	    }
+	      google.maps.event.addDomListener(window, 'load', initializePtArrive);
+
+	    function initializeHabitation() {
+			var input = document.getElementById('inscr:villeHabitation-inscr');
+			var options = {
+			  types: ['(cities)'],
+			  componentRestrictions: {country: 'be'}
+			};
+	 
+			autocomplete = new google.maps.places.Autocomplete(input, options);
+	 
+	    }
+	    google.maps.event.addDomListener(window, 'load', initializeHabitation);
+
+		</script>
+			<script>
+			$(function() {
+				var panelInfos = $("#panel-infos");
+
+				var heightSidebar = $(".btn-accueil").eq(0).parent().height();
+				var heightPanelInfo = $("#panel-infos").height();
+
+				var colorSidebar = new Array();
+				var i = 0;
+				$(".btn-accueil").each(function() {
+					colorSidebar[i++] = $(this).css("background-color");
+				});
+
+				$(".btn-accueil").click(function() {
+					//On modifie la couleur
+					$("#panel-infos").css("background-color", colorSidebar[$(this).index()]);
+
+					hidePanelInfos();
+
+					//On charge les différents composants
+					if ($(this).text() == "Inscription") {
+						
+						$("#cont-inscr").removeClass("hidden");
+					} else if ($(this).text() == "Connexion") {
+						$("#cont-connex").removeClass("hidden");
+					} else if ($(this).text() == "Rechercher") {
+						$("#cont-recher").removeClass("hidden");
+					}
+
+					
+					editHeightPanel();
+					
+				});
+
+				$("#inscr\\:typeUtili\\:0").click(function() {
+					$("#data-covoi").removeClass("hidden");
+				});
+
+				$("#inscr\\:typeUtili\\:1").click(function() {
+					$("#data-covoi").addClass("hidden");
+				});
+
+				$("#recher\\:date").datepicker({
+					minDate: 0
+				});
+
+				$("#nav-inscr").click(function() {
+					$("#panel-infos").css("background-color", colorSidebar[0]);
+					hidePanelInfos();
+					$("#cont-inscr").removeClass("hidden");
+					editHeightPanel();
+				});
+
+				$("#nav-connex").click(function() {
+					$("#panel-infos").css("background-color", colorSidebar[1]);
+					hidePanelInfos();
+					$("#cont-connex").removeClass("hidden");
+					editHeightPanel();
+				});
+
+				$("#nav-recher").click(function() {
+					$("#panel-infos").css("background-color", colorSidebar[2]);
+					hidePanelInfos();
+					$("#cont-recher").removeClass("hidden");
+					editHeightPanel();
+					
+				});
+
+				function hidePanelInfos() {
+					panelInfos.children().each(function() {
+						$(this).addClass("hidden");
+					});
+				}
+
+				function editHeightPanel() {
+					panelInfos.css("height", "");
+					heightPanelInfo = $("#panel-infos").height();
+					//On recalcule la hauteur
+					if (heightPanelInfo &lt;= heightSidebar) {
+						$("#panel-infos").css("height", heightSidebar);
+					}
+					else {
+						$("#panel-infos").css("height", "auto");
+					}
+				}
+			});
+		</script>
+		</c:otherwise>
+	</c:choose>
+<ui:include src="footer1.xhtml"></ui:include>
+</body>
+</html>

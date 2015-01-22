@@ -10,10 +10,10 @@ import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 
-import com.covoiturage.exceptions.AgeIncorrectException;
-import com.covoiturage.exceptions.ArretDejaExistantException;
-import com.covoiturage.exceptions.NombrePlaceException;
-import com.covoiturage.exceptions.PrixNegatifException;
+import com.covoiturage.exceptions.AgeIncorrectException1;
+import com.covoiturage.exceptions.ArretDejaExistantException1;
+import com.covoiturage.exceptions.NombrePlaceException1;
+import com.covoiturage.exceptions.PrixNegatifException1;
 
 @Entity
 public class Covoitureur extends Utilisateur {
@@ -28,7 +28,7 @@ public class Covoitureur extends Utilisateur {
 	public Covoitureur() {}
 	public Covoitureur(String nom, String prenom, int age, String email,
 			String password, String villeHabitation, String marque,
-			int nbPlaces) throws PrixNegatifException, AgeIncorrectException, NombrePlaceException
+			int nbPlaces) throws PrixNegatifException1, AgeIncorrectException1, NombrePlaceException1
 	{
 		super(nom,prenom,age,email,password,villeHabitation);
 	
@@ -42,7 +42,7 @@ public class Covoitureur extends Utilisateur {
 	
 	
 	//Ajoute un arrêt à la liste des arrêts proposés par le covoitureur
-	public void ajouterArret(String nomArret, Trajet traj) throws ArretDejaExistantException
+	public void ajouterArret(String nomArret, Trajet traj) throws ArretDejaExistantException1
 	{
 		if(getListeTrajets().contains(traj))
 		{

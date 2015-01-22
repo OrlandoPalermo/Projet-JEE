@@ -1,0 +1,215 @@
+<!DOCTYPE html>
+<html
+	xmlns:f="http://xmlns.jcp.org/jsf/core"
+	xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+	xmlns:h="http://xmlns.jcp.org/jsf/html"
+	xmlns:c="http://xmlns.jcp.org/jsp/jstl/core"
+	xmlns:jsf="http://xmlns.jcp.org/jsf"
+	xmlns:pt="http://xmlns.jcp.org/jsf/passthrough">
+<h:head>
+<meta charset="UTF-8" />
+		<h:outputStylesheet name="css/css.css" />
+		<h:outputStylesheet name="css/bootstrap.min.css" target="head" />
+		<h:outputStylesheet name="css/jquery-ui.min.css" />
+		<h:outputStylesheet name="css/fullcalendar.min.css" />
+		<h:outputStylesheet name="css/jquery.datetimepicker.css" />
+<title>Consulter</title>
+</h:head>
+<body>
+<ui:include src="header1.xhtml"></ui:include>
+<div class="container">
+			<div class="row">
+				<div class="col-md-12 text-center">
+					<div class="well well-sm" style="opacity: 0.6">
+						<h3>Consultation</h3>
+					</div>
+				</div>
+			</div>
+
+			<div class="row">
+				<div class="col-md-12">
+					<div id="calendar" class="consult-trajet"></div>
+				</div>
+			</div>
+			<div class="modal fade" id="modal-trajet">
+				<div class="modal-dialog">
+					<div class="modal-content">
+						<div class="modal-header">
+							<div class="modal-title"></div>
+						</div>
+						<div class="modal-body">
+							<h:form id="form-lecture" class="form form-vertical">
+								<c:choose>
+									<c:when test="#{utilisateur.droitUtilisateur() == 0}">
+										<div class="form-group">
+											<label for="prix">Prix : </label>
+											<h:inputText type="text" class="form-control" id="prix" ></h:inputText>
+										</div>
+										<div class="form-group">
+											<label for="date">Date : </label>
+											<h:inputText type="text" class="form-control" id="date"> </h:inputText>
+										</div>
+										<div class="form-group">
+											<label for="heureDepart">L'heure de départ : </label>
+											<h:inputText type="text" class="form-control" id="heureDepart"></h:inputText>
+										</div>
+										<div class="form-group">
+											<h3>Liste des arrêts</h3>
+											<h:dataTable id="listeTrajet" styleClass="table table-striped">
+												
+											</h:dataTable>
+										</div>
+									</c:when>
+									<c:otherwise>
+										<div class="form-group">
+											<label for="prix">Prix : </label>
+											<h:outputText class="form-control" id="prix"></h:outputText>
+										</div>
+										<div class="form-group">
+											<label for="date">Date : </label>
+											<h:outputText class="form-control" id="date"> </h:outputText>
+										</div>
+										<div class="form-group">
+											<label for="heureDepart">L'heure de départ : </label>
+											<h:outputText class="form-control" id="heureDepart"></h:outputText>
+										</div>
+										<div class="form-group">
+											<h3>Liste des arrêts</h3>
+											<h:dataTable id="listeTrajet" styleClass="table table-striped">
+												
+											</h:dataTable>
+										</div>
+									</c:otherwise>
+								</c:choose>	
+								<div class="form-group">
+									<label for="nbPersonne">Nombre de personnes pour ce trajet : </label>
+									<h:outputText class="form-control" id="nbPersonne"></h:outputText>
+								</div>
+							</h:form>
+						</div>
+						<div class="modal-footer">
+							<div class="row text-center">
+								<div class="col-md-4">
+									<input type="button" class="btn btn-default" value="Annuler" />
+								</div>
+								<c:choose>
+									<c:when test="#{utilisateur.droitUtilisateur() == 0}">
+										<div class="col-md-4">
+											<input type="button" class="btn btn-success" value="Valider" />
+										</div>
+										<div class="col-md-4">
+											<input type="button" class="btn btn-danger" value="Supprimer" />
+										</div>
+									</c:when>
+									<c:otherwise>
+									<h:form id="actionPassager">
+										<div class="col-md-4">
+											<h:inputHidden id="idPassager" value="#{consulterMB.idPassager}"></h:inputHidden>
+											<h:inputHidden id="idTrajet" value="#{consulterMB.idTrajet}"></h:inputHidden>
+											<h:commandButton styleClass="btn btn-danger" value="Se désinscrire" action="#{consulterMB.desinscrire}">
+												<f:setPropertyActionListener value="#{utilisateur.utilisateur.id}" target="#{consulterMB.idPassager}"></f:setPropertyActionListener>
+												
+											</h:commandButton>
+										</div>
+											<div class="col-md-4">
+												<h:commandButton id="porterPlainte" type="button" class="btn btn-danger" value="Porter plainte"  data-placement="top" data-toggle="popover" title="Formulaire">
+													<f:ajax></f:ajax>
+												</h:commandButton>
+												<div class="form hidden" id="data-form">
+													<h:inputHidden id="id" value="#{consulterMB.idConducteur}"></h:inputHidden>
+													<h:inputText value="#{consulterMB.plainte.message}" pt:placeholder="Motif" styleClass="form-control"></h:inputText>
+													<h:commandButton value="Envoyer la plainte" styleClass="btn btn-warning" action="#{consulterMB.envoyerPlainte()}"></h:commandButton>
+												</div>
+											</div>
+										</h:form>
+									</c:otherwise>
+								</c:choose>
+								
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+		<ui:include src="footer1.xhtml"></ui:include>
+		<!--<script src="https://maps.googleapis.com/maps/api/js?v=3.exp&libraries=places"></script>-->
+		<h:outputScript name="js/jquery.min.js" />
+		<h:outputScript name="js/jquery-ui.min.js" />
+		<h:outputScript name="js/bootstrap.min.js" />
+		<h:outputScript name="js/moment.min.js" />
+		<h:outputScript name="js/fullcalendar.min.js" />
+		<h:outputScript name="js/jquery.datetimepicker.js" />
+		<c:choose>
+			<c:when test="#{utilisateur.droitUtilisateur() == 0}">
+				<script>
+				$(function() {
+					$("#calendar").fullCalendar({
+						eventClick : function(calEvent, jsEvent, view) {
+							var modalTrajet = $("#modal-trajet");
+							modalTrajet.find(".modal-title").text("Trajet");
+							$("#form-lecture\\:prix").val(calEvent.prix);
+							$("#form-lecture\\:heureDepart").val(calEvent.start);
+							$("#form-lecture\\:date").val(calEvent.date);
+							$("#form-lecture\\:nbPersonne").text(calEvent.nbPersonnes);
+							var listeTrajet = $("#form-lecture\\:listeTrajet").children();
+							var tabTrajet = calEvent.listeArret;
+							
+							listeTrajet.html("");
+							for (var i = 0; i &lt; tabTrajet.length; i++) {
+								listeTrajet.append("<tr><td>"+ tabTrajet[i] +"</td></tr>")
+							}
+							
+							modalTrajet.modal("show");
+						},
+						 events: "../services/trajet/#{utilisateur.email}"
+					});
+					
+					$(function() {		
+						$("#form-lecture\\:heureDepart").datetimepicker({
+							datepicker:false,
+							format:'H:i'
+						});
+					});
+				});
+				</script>
+			</c:when>
+			<c:otherwise>
+			<script>
+				$(function() {
+					$("#calendar").fullCalendar({
+						eventClick : function(calEvent, jsEvent, view) {
+							var modalTrajet = $("#modal-trajet");
+							modalTrajet.find(".modal-title").text("Trajet");
+							$("#form-lecture\\:prix").text(calEvent.prix);
+							$("#form-lecture\\:heureDepart").text(calEvent.start);
+							$("#form-lecture\\:date").text(calEvent.date);
+							$("#form-lecture\\:nbPersonne").text(calEvent.nbPersonnes);
+							var listeTrajet = $("#form-lecture\\:listeTrajet").children();
+							var tabTrajet = calEvent.listeArret;
+							$("#actionPassager\\:id").val(calEvent.idConducteur);
+							listeTrajet.html("");
+							for (var i = 0; i &lt; tabTrajet.length; i++) {
+								listeTrajet.append("<tr><td>"+ tabTrajet[i] +"</td></tr>")
+							}
+							$("#actionPassager\\:idTrajet").val(calEvent.id);
+							$("#actionPassager\\:porterPlainte").popover({
+								content: $("#data-form").html(),
+								html: true
+								
+							});
+							
+							modalTrajet.modal("show");
+						},
+						 events: "../services/trajet/#{utilisateur.email}"
+					});
+					
+				
+				});
+				</script>
+			</c:otherwise>
+		</c:choose>
+		<script>
+			
+		</script>
+</body>
+</html>

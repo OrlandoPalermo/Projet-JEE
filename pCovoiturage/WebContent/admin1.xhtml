@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html
+	xmlns:f="http://xmlns.jcp.org/jsf/core"
+	xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+	xmlns:h="http://xmlns.jcp.org/jsf/html"
+	xmlns:c="http://xmlns.jcp.org/jsp/jstl/core"
+	xmlns:jsf="http://xmlns.jcp.org/jsf"
+	xmlns:pt="http://xmlns.jcp.org/jsf/passthrough">
+	<h:head>
+		<meta charset="UTF-8" />
+		<h:outputStylesheet name="css/css.css" />
+		<h:outputStylesheet name="css/bootstrap.min.css" target="head" />
+		<h:outputStylesheet name="css/jquery-ui.min.css" />
+		<title>Panneau administrateur</title>
+	</h:head>
+	<body>
+		<ui:include src="header1.xhtml"></ui:include>
+		<c:choose>
+			<c:when test="#{utilisateur.connecte}">
+				<c:choose>
+					<c:when test="#{utilisateur.droitUtilisateur() == 2}">
+						<div class="container">
+						<div class="well well-lg text-center"><h3>Panneau administrateur</h3></div>
+						<div class="panel panel-default">
+						
+							<div class="panel-body">
+							<h:form id="form-admin">
+								<h:dataTable id="table-covoi-p" value="#{adminMB.covoisPlaintes}" var="dataCovoi" styleClass="table table-stiped">
+									<h:column>
+										<f:facet name="header">
+											<h:outputText value="Nom"></h:outputText>
+										</f:facet>
+										<h:outputText value="#{dataCovoi.nom}"></h:outputText>
+									</h:column>
+									<h:column>
+										<f:facet name="header">
+											<h:outputText value="Prénom"></h:outputText>
+										</f:facet>
+										<h:outputText value="#{dataCovoi.prenom}"></h:outputText>
+									</h:column>
+									<h:column>
+										<f:facet name="header">
+											<h:outputText value="Email"></h:outputText>
+										</f:facet>
+										<h:outputText value="#{dataCovoi.email}"></h:outputText>
+									</h:column>
+									<h:column>
+										<f:facet name="header">
+											<h:outputText value="Nombre de plaintes"></h:outputText>
+										</f:facet>
+										<h:outputText value="#{dataCovoi.nbPlaintes()}"></h:outputText>
+									</h:column>
+									<h:column>
+										<f:facet name="header">
+											<h:outputText value="Action"></h:outputText>
+										</f:facet>
+										<h:commandButton value="Bannir" styleClass="btn btn-warning btn-xs" action="#{adminMB.bannir}">
+											<f:setPropertyActionListener value="#{dataCovoi}" target="#{adminMB.covoiABannir}"></f:setPropertyActionListener>
+										</h:commandButton>
+									</h:column>
+								</h:dataTable>
+								</h:form>
+							</div>
+						</div>
+						</div>
+					</c:when>
+					<c:otherwise>
+						<div class="container">
+							<div class="alert alert-warning text-center"><h2>Vous n'êtes pas autorisé à entrer sur cette page !</h2></div>
+						</div>
+					</c:otherwise>
+				</c:choose>
+			</c:when>
+			<c:otherwise>
+				<div class="container">
+							<div class="alert alert-warning text-center"><h2>Vous n'êtes pas autorisé à entrer sur cette page !</h2></div>
+						</div>
+			</c:otherwise>
+		</c:choose>
+		<ui:include src="footer1.xhtml"></ui:include>
+		<h:outputScript name="js/jquery.min.js" />
+		<h:outputScript name="js/jquery-ui.min.js" />
+		<h:outputScript name="js/bootstrap.min.js" />
+		<script>
+			$(function() {
+				$("#form-admin\\:table-covoi-p tbody tr").each(function() {
+					var tds = $(this).children();
+					var nbPlaintes = tds.eq(3).text();
+					
+					switch(parseInt(nbPlaintes)) {
+					case 1:
+					case 2:
+						$(this).attr("class", "active");
+						break;
+					case 3:
+					case 4:
+						$(this).attr("class", "warning");
+						break;
+					default:
+						$(this).attr("class", "danger");
+					}
+				});
+			});
+		</script>
+	</body>
+</html>

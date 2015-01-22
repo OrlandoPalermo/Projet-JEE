@@ -1,0 +1,32 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:c="http://xmlns.jcp.org/jsp/jstl/core">
+	<nav class="navbar navbar-inverse">
+		<div class="container">
+			<div class="navbar-header">
+				<a href="index1.xhtml" id="home" class="navbar-brand">Shareaseat</a>
+			</div>
+
+			<ul class="nav navbar-nav pull-right">
+				<c:choose>
+					<c:when test="#{utilisateur.connecte}">
+						<h:form>
+							
+							
+							<li><h:commandLink styleClass="navbar-text" action="#{utilisateur.deconnexion}"
+									id="nav-deco">Déconnexion</h:commandLink></li>
+						</h:form>
+					</c:when>
+					<c:otherwise>
+						<li><a href="#" id="nav-inscr">Inscription</a></li>
+						<li><a href="#" id="nav-connex">Connexion</a></li>
+						<li><a href="#" id="nav-recher">Rechercher</a></li>
+					</c:otherwise>
+				</c:choose>
+
+			</ul>
+		</div>
+	</nav>
+</ui:composition>

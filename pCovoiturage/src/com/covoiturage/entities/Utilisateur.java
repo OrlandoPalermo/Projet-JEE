@@ -25,9 +25,9 @@ import javax.persistence.Transient;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 
-import com.covoiturage.exceptions.AgeIncorrectException;
-import com.covoiturage.exceptions.EmailIncorrectException;
-import com.covoiturage.exceptions.TrajetExistantException;
+import com.covoiturage.exceptions.AgeIncorrectException1;
+import com.covoiturage.exceptions.EmailIncorrectException1;
+import com.covoiturage.exceptions.TrajetExistantException1;
 import com.google.gson.Gson;
 import com.google.gson.JsonObject;
 
@@ -71,7 +71,7 @@ public abstract class Utilisateur {
 		listePlaintes = new ArrayList<Plainte>();
 	}
 	public Utilisateur(String nom, String prenom, int age, String email, String password,
-			String dateInscription, String villeHabitation) throws AgeIncorrectException
+			String dateInscription, String villeHabitation) throws AgeIncorrectException1
 	{
 		this.nom = nom;
 		this.prenom = prenom;
@@ -84,7 +84,7 @@ public abstract class Utilisateur {
 		listePlaintes = new ArrayList<Plainte>();
 	}
 	
-	public Utilisateur(String nom, String prenom, int age, String email, String password, String villeHabitation) throws AgeIncorrectException
+	public Utilisateur(String nom, String prenom, int age, String email, String password, String villeHabitation) throws AgeIncorrectException1
 	{
 		this.nom = nom;
 		this.prenom = prenom;
@@ -116,11 +116,11 @@ public abstract class Utilisateur {
 	
 	
 	// Méthode pour ajouter un trajet à la liste des trajets proposés par un utilisateur
-	public void ajouterTrajet(Trajet traj) throws TrajetExistantException
+	public void ajouterTrajet(Trajet traj) throws TrajetExistantException1
 	{
 		if(listeTrajets.contains(traj))
 		{
-				throw new TrajetExistantException();
+				throw new TrajetExistantException1();
 		}
 		listeTrajets.add(traj);
 	}
@@ -170,7 +170,7 @@ public abstract class Utilisateur {
 		return email;
 	}
 	
-	public void setEmail(String email) throws EmailIncorrectException
+	public void setEmail(String email) throws EmailIncorrectException1
 	{
 		/*Utilisation d'un regex avec un objet Pattern pour le regex et un 
 		 * objet Matcher de comparaison. Si l'email correspond aux exigences du regex,
@@ -186,13 +186,13 @@ public abstract class Utilisateur {
 			//On vérifie si l'adresse mail ne se termine pas par un simple point
 			if(email.charAt(email.length()-1)=='.')
 			{
-				throw new EmailIncorrectException();
+				throw new EmailIncorrectException1();
 			}
 			this.email = email;
 		}
 		else
 		{
-			throw new EmailIncorrectException();
+			throw new EmailIncorrectException1();
 		}
 
 	}
@@ -222,11 +222,11 @@ public abstract class Utilisateur {
 		return age;
 	}
 	
-	public void setAge(int age) throws AgeIncorrectException
+	public void setAge(int age) throws AgeIncorrectException1
 	{
 		if(age < 17 || age > 80)
 		{
-			throw new AgeIncorrectException();
+			throw new AgeIncorrectException1();
 		}
 		this.age = age;
 	}

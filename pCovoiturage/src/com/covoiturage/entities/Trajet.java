@@ -12,9 +12,9 @@ import javax.persistence.Transient;
 
 import org.json.simple.JSONObject;
 
-import com.covoiturage.exceptions.ArretDejaExistantException;
-import com.covoiturage.exceptions.NombrePlaceException;
-import com.covoiturage.exceptions.PrixNegatifException;
+import com.covoiturage.exceptions.ArretDejaExistantException1;
+import com.covoiturage.exceptions.NombrePlaceException1;
+import com.covoiturage.exceptions.PrixNegatifException1;
 import com.google.gson.Gson;
 
 @Entity
@@ -49,11 +49,11 @@ public class Trajet {
 		this.prixParPlace = prix;
 	}
 	
-	public void setArret(String aRemplacer, String remplace) throws ArretDejaExistantException
+	public void setArret(String aRemplacer, String remplace) throws ArretDejaExistantException1
 	{
 		if(aRemplacer.equals(remplace))
 		{
-			throw new ArretDejaExistantException();
+			throw new ArretDejaExistantException1();
 		}
 		if(listeArrets.contains(aRemplacer))
 		{
@@ -88,9 +88,9 @@ public class Trajet {
 		return prixParPlace;
 	}
 
-	public void setPrixParPlace(double prixParPlace) throws PrixNegatifException{
+	public void setPrixParPlace(double prixParPlace) throws PrixNegatifException1{
 		if (prixParPlace < 0)
-			throw new PrixNegatifException();
+			throw new PrixNegatifException1();
 		this.prixParPlace = prixParPlace;
 	}
 
@@ -135,9 +135,9 @@ public class Trajet {
 	 * de passagers
 	 * @param utili
 	 */
-	public void ajouterPassager(Utilisateur utili) throws NombrePlaceException {
+	public void ajouterPassager(Utilisateur utili) throws NombrePlaceException1 {
 		if (obtenirNombrePlaceLibre() <= 0)
-			throw new NombrePlaceException();
+			throw new NombrePlaceException1();
 		if (!listePassagers.contains(utili))
 			listePassagers.add(utili);
 	}
